@@ -1,0 +1,3492 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.4 (Ubuntu 12.4-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.4 (Ubuntu 12.4-0ubuntu0.20.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: archivos_version; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.archivos_version (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    academic_period character varying(150),
+    generation_date date,
+    version character varying(150) NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    plan_id integer NOT NULL
+);
+
+
+ALTER TABLE public.archivos_version OWNER TO dbuser;
+
+--
+-- Name: archivos_version_detalle; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.archivos_version_detalle (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    name_file character varying(100) NOT NULL,
+    type_file character varying(150) NOT NULL,
+    generate_file character varying(100),
+    creator_id integer,
+    file_version_id integer NOT NULL,
+    modifier_id integer
+);
+
+
+ALTER TABLE public.archivos_version_detalle OWNER TO dbuser;
+
+--
+-- Name: archivos_version_detalle_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.archivos_version_detalle_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.archivos_version_detalle_id_seq OWNER TO dbuser;
+
+--
+-- Name: archivos_version_detalle_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.archivos_version_detalle_id_seq OWNED BY public.archivos_version_detalle.id;
+
+
+--
+-- Name: archivos_version_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.archivos_version_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.archivos_version_id_seq OWNER TO dbuser;
+
+--
+-- Name: archivos_version_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.archivos_version_id_seq OWNED BY public.archivos_version.id;
+
+
+--
+-- Name: aula; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.aula (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    name character varying(200) NOT NULL,
+    code character varying(10) NOT NULL,
+    capacity smallint NOT NULL,
+    affinity smallint NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    CONSTRAINT aula_affinity_c3dac853_check CHECK ((affinity >= 0)),
+    CONSTRAINT aula_capacity_check CHECK ((capacity >= 0))
+);
+
+
+ALTER TABLE public.aula OWNER TO dbuser;
+
+--
+-- Name: aula_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.aula_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.aula_id_seq OWNER TO dbuser;
+
+--
+-- Name: aula_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.aula_id_seq OWNED BY public.aula.id;
+
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO dbuser;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO dbuser;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO dbuser;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO dbuser;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO dbuser;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO dbuser;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(150) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO dbuser;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO dbuser;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO dbuser;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO dbuser;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO dbuser;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO dbuser;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- Name: base_paralelo; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.base_paralelo (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    code character varying(50) NOT NULL,
+    description text NOT NULL,
+    creator_id integer,
+    modifier_id integer
+);
+
+
+ALTER TABLE public.base_paralelo OWNER TO dbuser;
+
+--
+-- Name: base_paralelo_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.base_paralelo_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.base_paralelo_id_seq OWNER TO dbuser;
+
+--
+-- Name: base_paralelo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.base_paralelo_id_seq OWNED BY public.base_paralelo.id;
+
+
+--
+-- Name: carrera; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.carrera (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    name character varying(200) NOT NULL,
+    code character varying(100) NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    alias character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.carrera OWNER TO dbuser;
+
+--
+-- Name: carrera_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.carrera_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.carrera_id_seq OWNER TO dbuser;
+
+--
+-- Name: carrera_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.carrera_id_seq OWNED BY public.carrera.id;
+
+
+--
+-- Name: contrato; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.contrato (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    name character varying(200) NOT NULL,
+    code character varying(10) NOT NULL,
+    creator_id integer,
+    modifier_id integer
+);
+
+
+ALTER TABLE public.contrato OWNER TO dbuser;
+
+--
+-- Name: contrato_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.contrato_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.contrato_id_seq OWNER TO dbuser;
+
+--
+-- Name: contrato_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.contrato_id_seq OWNED BY public.contrato.id;
+
+
+--
+-- Name: disponibilidad_horaria; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.disponibilidad_horaria (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    day date,
+    start_time time without time zone NOT NULL,
+    end_time time without time zone NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    teachers_id integer NOT NULL,
+    term_id integer NOT NULL,
+    num_end_day character varying(5),
+    num_start_day character varying(5) NOT NULL,
+    description character varying(200)
+);
+
+
+ALTER TABLE public.disponibilidad_horaria OWNER TO dbuser;
+
+--
+-- Name: disponibilidad_horaria_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.disponibilidad_horaria_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.disponibilidad_horaria_id_seq OWNER TO dbuser;
+
+--
+-- Name: disponibilidad_horaria_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.disponibilidad_horaria_id_seq OWNED BY public.disponibilidad_horaria.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO dbuser;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO dbuser;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO dbuser;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO dbuser;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO dbuser;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO dbuser;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO dbuser;
+
+--
+-- Name: horario_ibm; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.horario_ibm (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    day_week smallint NOT NULL,
+    start_time time without time zone NOT NULL,
+    end_time time without time zone NOT NULL,
+    assigned_teacher character varying(150) NOT NULL,
+    assigned_classroom character varying(150) NOT NULL,
+    creator_id integer,
+    file_version_id integer NOT NULL,
+    modifier_id integer,
+    CONSTRAINT horario_ibm_day_week_check CHECK ((day_week >= 0))
+);
+
+
+ALTER TABLE public.horario_ibm OWNER TO dbuser;
+
+--
+-- Name: horario_ibm_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.horario_ibm_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.horario_ibm_id_seq OWNER TO dbuser;
+
+--
+-- Name: horario_ibm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.horario_ibm_id_seq OWNED BY public.horario_ibm.id;
+
+
+--
+-- Name: malla; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.malla (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    name character varying(200) NOT NULL,
+    year smallint NOT NULL,
+    career_id integer NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    subject_mesh_id integer,
+    CONSTRAINT malla_year_check CHECK ((year >= 0))
+);
+
+
+ALTER TABLE public.malla OWNER TO dbuser;
+
+--
+-- Name: malla_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.malla_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.malla_id_seq OWNER TO dbuser;
+
+--
+-- Name: malla_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.malla_id_seq OWNED BY public.malla.id;
+
+
+--
+-- Name: materia; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.materia (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    name character varying(200) NOT NULL,
+    code character varying(50) NOT NULL,
+    creator_id integer,
+    modifier_id integer
+);
+
+
+ALTER TABLE public.materia OWNER TO dbuser;
+
+--
+-- Name: materia_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.materia_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.materia_id_seq OWNER TO dbuser;
+
+--
+-- Name: materia_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.materia_id_seq OWNED BY public.materia.id;
+
+
+--
+-- Name: materia_malla; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.materia_malla (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    subject_id integer,
+    level integer NOT NULL
+);
+
+
+ALTER TABLE public.materia_malla OWNER TO dbuser;
+
+--
+-- Name: materia_malla_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.materia_malla_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.materia_malla_id_seq OWNER TO dbuser;
+
+--
+-- Name: materia_malla_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.materia_malla_id_seq OWNED BY public.materia_malla.id;
+
+
+--
+-- Name: paralelo; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.paralelo (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    plan_id integer,
+    teacher_id integer,
+    term_id integer NOT NULL,
+    classroom_id integer,
+    code character varying(20),
+    subject_mesh_id integer,
+    name smallint NOT NULL,
+    CONSTRAINT paralelo_name_check CHECK ((name >= 0))
+);
+
+
+ALTER TABLE public.paralelo OWNER TO dbuser;
+
+--
+-- Name: paralelo_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.paralelo_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.paralelo_id_seq OWNER TO dbuser;
+
+--
+-- Name: paralelo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.paralelo_id_seq OWNED BY public.paralelo.id;
+
+
+--
+-- Name: periodo; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.periodo (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    name character varying(120) NOT NULL,
+    year smallint NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    CONSTRAINT periodo_year_check CHECK ((year >= 0))
+);
+
+
+ALTER TABLE public.periodo OWNER TO dbuser;
+
+--
+-- Name: periodo_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.periodo_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.periodo_id_seq OWNER TO dbuser;
+
+--
+-- Name: periodo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.periodo_id_seq OWNED BY public.periodo.id;
+
+
+--
+-- Name: planificacion; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.planificacion (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    career_id integer NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    term_id integer NOT NULL,
+    state boolean NOT NULL,
+    date_emi date,
+    version character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.planificacion OWNER TO dbuser;
+
+--
+-- Name: planificacion_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.planificacion_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.planificacion_id_seq OWNER TO dbuser;
+
+--
+-- Name: planificacion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.planificacion_id_seq OWNED BY public.planificacion.id;
+
+
+--
+-- Name: planificacion_item; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.planificacion_item (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    availability_id integer,
+    classroom_id integer NOT NULL,
+    creator_id integer,
+    modifier_id integer,
+    plan_id integer NOT NULL,
+    subject_id integer NOT NULL,
+    teacher_id integer NOT NULL,
+    parallel_id integer,
+    end_day character varying(120),
+    end_time character varying(70),
+    start_day character varying(120),
+    start_time character varying(70)
+);
+
+
+ALTER TABLE public.planificacion_item OWNER TO dbuser;
+
+--
+-- Name: planificacion_item_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.planificacion_item_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.planificacion_item_id_seq OWNER TO dbuser;
+
+--
+-- Name: planificacion_item_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.planificacion_item_id_seq OWNED BY public.planificacion_item.id;
+
+
+--
+-- Name: profesor; Type: TABLE; Schema: public; Owner: dbuser
+--
+
+CREATE TABLE public.profesor (
+    id integer NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone,
+    status boolean NOT NULL,
+    full_name character varying(200) NOT NULL,
+    alias character varying(20) NOT NULL,
+    career_id integer NOT NULL,
+    contract_id integer,
+    creator_id integer,
+    modifier_id integer,
+    skill smallint NOT NULL,
+    affinity smallint NOT NULL,
+    CONSTRAINT profesor_affinity_d8a7a056_check CHECK ((affinity >= 0)),
+    CONSTRAINT profesor_skill_check CHECK ((skill >= 0))
+);
+
+
+ALTER TABLE public.profesor OWNER TO dbuser;
+
+--
+-- Name: profesor_id_seq; Type: SEQUENCE; Schema: public; Owner: dbuser
+--
+
+CREATE SEQUENCE public.profesor_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.profesor_id_seq OWNER TO dbuser;
+
+--
+-- Name: profesor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dbuser
+--
+
+ALTER SEQUENCE public.profesor_id_seq OWNED BY public.profesor.id;
+
+
+--
+-- Name: archivos_version id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version ALTER COLUMN id SET DEFAULT nextval('public.archivos_version_id_seq'::regclass);
+
+
+--
+-- Name: archivos_version_detalle id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version_detalle ALTER COLUMN id SET DEFAULT nextval('public.archivos_version_detalle_id_seq'::regclass);
+
+
+--
+-- Name: aula id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.aula ALTER COLUMN id SET DEFAULT nextval('public.aula_id_seq'::regclass);
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: base_paralelo id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.base_paralelo ALTER COLUMN id SET DEFAULT nextval('public.base_paralelo_id_seq'::regclass);
+
+
+--
+-- Name: carrera id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.carrera ALTER COLUMN id SET DEFAULT nextval('public.carrera_id_seq'::regclass);
+
+
+--
+-- Name: contrato id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.contrato ALTER COLUMN id SET DEFAULT nextval('public.contrato_id_seq'::regclass);
+
+
+--
+-- Name: disponibilidad_horaria id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.disponibilidad_horaria ALTER COLUMN id SET DEFAULT nextval('public.disponibilidad_horaria_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: horario_ibm id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.horario_ibm ALTER COLUMN id SET DEFAULT nextval('public.horario_ibm_id_seq'::regclass);
+
+
+--
+-- Name: malla id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.malla ALTER COLUMN id SET DEFAULT nextval('public.malla_id_seq'::regclass);
+
+
+--
+-- Name: materia id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.materia ALTER COLUMN id SET DEFAULT nextval('public.materia_id_seq'::regclass);
+
+
+--
+-- Name: materia_malla id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.materia_malla ALTER COLUMN id SET DEFAULT nextval('public.materia_malla_id_seq'::regclass);
+
+
+--
+-- Name: paralelo id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.paralelo ALTER COLUMN id SET DEFAULT nextval('public.paralelo_id_seq'::regclass);
+
+
+--
+-- Name: periodo id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.periodo ALTER COLUMN id SET DEFAULT nextval('public.periodo_id_seq'::regclass);
+
+
+--
+-- Name: planificacion id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion ALTER COLUMN id SET DEFAULT nextval('public.planificacion_id_seq'::regclass);
+
+
+--
+-- Name: planificacion_item id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item ALTER COLUMN id SET DEFAULT nextval('public.planificacion_item_id_seq'::regclass);
+
+
+--
+-- Name: profesor id; Type: DEFAULT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.profesor ALTER COLUMN id SET DEFAULT nextval('public.profesor_id_seq'::regclass);
+
+
+--
+-- Data for Name: archivos_version; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.archivos_version (id, created, modified, deleted_at, status, academic_period, generation_date, version, creator_id, modifier_id, plan_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: archivos_version_detalle; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.archivos_version_detalle (id, created, modified, deleted_at, status, name_file, type_file, generate_file, creator_id, file_version_id, modifier_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: aula; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.aula (id, created, modified, deleted_at, status, name, code, capacity, affinity, creator_id, modifier_id) FROM stdin;
+1	2020-09-02 15:14:55.269596+00	2020-09-02 15:14:55.269643+00	\N	t	F201	F201	23	7	2	2
+2	2020-09-02 15:15:40.590039+00	2020-09-02 15:15:47.217995+00	\N	t	F202	F202	25	8	2	2
+3	2020-09-02 15:16:21.531447+00	2020-09-02 15:16:21.531494+00	\N	t	F206	F206	35	9	2	2
+4	2020-09-02 15:19:54.121777+00	2020-09-02 15:19:54.121827+00	\N	t	F207	F207	38	10	2	2
+5	2020-09-02 15:20:35.214106+00	2020-09-02 15:20:35.214292+00	\N	t	F208	F208	36	7	2	2
+6	2020-09-02 15:21:09.469279+00	2020-09-02 15:21:09.469327+00	\N	t	F209	F209	48	10	2	2
+7	2020-09-02 15:21:48.652228+00	2020-09-02 15:21:48.652301+00	\N	t	F210	F210	37	8	2	2
+8	2020-09-02 15:22:18.430791+00	2020-09-02 15:22:18.430841+00	\N	t	G201	G201	35	7	2	2
+9	2020-09-02 15:22:41.191662+00	2020-09-02 15:22:41.191712+00	\N	t	G202	G202	33	7	2	2
+10	2020-09-02 15:23:01.403002+00	2020-09-02 15:23:01.403072+00	\N	t	G203	G203	28	7	2	2
+11	2020-09-02 15:23:32.725079+00	2020-09-02 15:23:32.725152+00	\N	t	Laboratorio de Networking	Netw	32	10	2	2
+12	2020-09-02 15:24:10.222744+00	2020-09-02 15:24:10.222791+00	\N	t	Laboratorio de Electrónica	LabElec	10	6	2	2
+\.
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+21	Can add session	6	add_session
+22	Can change session	6	change_session
+23	Can delete session	6	delete_session
+24	Can view session	6	view_session
+25	Can add Carrera	7	add_careermodel
+26	Can change Carrera	7	change_careermodel
+27	Can delete Carrera	7	delete_careermodel
+28	Can view Carrera	7	view_careermodel
+29	Can add Contrato	8	add_contractmodel
+30	Can change Contrato	8	change_contractmodel
+31	Can delete Contrato	8	delete_contractmodel
+32	Can view Contrato	8	view_contractmodel
+33	Can add Malla	9	add_meshmodel
+34	Can change Malla	9	change_meshmodel
+35	Can delete Malla	9	delete_meshmodel
+36	Can view Malla	9	view_meshmodel
+37	Can add Periodo	10	add_termmodel
+38	Can change Periodo	10	change_termmodel
+39	Can delete Periodo	10	delete_termmodel
+40	Can view Periodo	10	view_termmodel
+41	Can add Profesor	11	add_teachermodel
+42	Can change Profesor	11	change_teachermodel
+43	Can delete Profesor	11	delete_teachermodel
+44	Can view Profesor	11	view_teachermodel
+45	Can add Materia	12	add_subjectmodel
+46	Can change Materia	12	change_subjectmodel
+47	Can delete Materia	12	delete_subjectmodel
+48	Can view Materia	12	view_subjectmodel
+49	Can add Materia Malla	13	add_subjectmeshmodel
+50	Can change Materia Malla	13	change_subjectmeshmodel
+51	Can delete Materia Malla	13	delete_subjectmeshmodel
+52	Can view Materia Malla	13	view_subjectmeshmodel
+53	Can add Planificación	14	add_planmodel
+54	Can change Planificación	14	change_planmodel
+55	Can delete Planificación	14	delete_planmodel
+56	Can view Planificación	14	view_planmodel
+57	Can add Paralelo	15	add_parallelmodel
+58	Can change Paralelo	15	change_parallelmodel
+59	Can delete Paralelo	15	delete_parallelmodel
+60	Can view Paralelo	15	view_parallelmodel
+61	Can add Aula	16	add_classroommodel
+62	Can change Aula	16	change_classroommodel
+63	Can delete Aula	16	delete_classroommodel
+64	Can view Aula	16	view_classroommodel
+65	Can add Disponibilidad horaria	17	add_timeavailabilitymodel
+66	Can change Disponibilidad horaria	17	change_timeavailabilitymodel
+67	Can delete Disponibilidad horaria	17	delete_timeavailabilitymodel
+68	Can view Disponibilidad horaria	17	view_timeavailabilitymodel
+69	Can add Archivo version	18	add_filversionmodel
+70	Can change Archivo version	18	change_filversionmodel
+71	Can delete Archivo version	18	delete_filversionmodel
+72	Can view Archivo version	18	view_filversionmodel
+73	Can add IBM Horario	19	add_ibmschedulemodel
+74	Can change IBM Horario	19	change_ibmschedulemodel
+75	Can delete IBM Horario	19	delete_ibmschedulemodel
+76	Can view IBM Horario	19	view_ibmschedulemodel
+77	Can add Archivo version detalle	20	add_filversiondetailmodel
+78	Can change Archivo version detalle	20	change_filversiondetailmodel
+79	Can delete Archivo version detalle	20	delete_filversiondetailmodel
+80	Can view Archivo version detalle	20	view_filversiondetailmodel
+81	Can add Item planificacion	21	add_lineitemschedulemodel
+82	Can change Item planificacion	21	change_lineitemschedulemodel
+83	Can delete Item planificacion	21	delete_lineitemschedulemodel
+84	Can view Item planificacion	21	view_lineitemschedulemodel
+85	Can add Base paralelo	22	add_basicparallelmodel
+86	Can change Base paralelo	22	change_basicparallelmodel
+87	Can delete Base paralelo	22	delete_basicparallelmodel
+88	Can view Base paralelo	22	view_basicparallelmodel
+\.
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+3	pbkdf2_sha256$216000$W2k9J8R9GI6w$at4F+ufxd7fTdYy8pu6d/ce8aOTlzcKEU4taksN4DIE=	2020-09-07 21:55:51.461986+00	t	administrador	Raquel	Gomez	raquelgomez@uees.edu.ec	t	t	2020-09-02 14:56:00+00
+2	pbkdf2_sha256$216000$yWIfg7QrAMXi$lCU3ZgR32CMzgp6Kdr+Y0smdN8gAm/SFWq9MR352UVo=	2020-09-08 00:48:51.173601+00	t	support				t	t	2020-09-02 14:09:36+00
+1	pbkdf2_sha256$216000$wHJwOZLooFHu$d70h9cJcftKlGSTTrNhxDwBV02u8ROPehutNld+bYfU=	2020-09-07 13:46:06.462956+00	t	rnoboa			rnoboa22@gmail.com	t	t	2020-09-02 14:07:08.69497+00
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: base_paralelo; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.base_paralelo (id, created, modified, deleted_at, status, code, description, creator_id, modifier_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: carrera; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.carrera (id, created, modified, deleted_at, status, name, code, creator_id, modifier_id, alias) FROM stdin;
+1	2020-09-02 15:36:13.240823+00	2020-09-07 21:22:53.224992+00	\N	t	Ingeniería en Ciencias Computacionales	UCOM	2	3	C-2020
+2	2020-09-02 15:40:05.556317+00	2020-09-07 21:23:04.020317+00	\N	t	Ingeniería en Telecomunicaciones y Electrónica	UTEL	2	3	T-2020
+\.
+
+
+--
+-- Data for Name: contrato; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.contrato (id, created, modified, deleted_at, status, name, code, creator_id, modifier_id) FROM stdin;
+1	2020-09-02 15:31:06.951598+00	2020-09-02 15:31:06.951647+00	\N	t	Parcial	1	2	2
+2	2020-09-02 15:31:15.118821+00	2020-09-02 15:31:15.118896+00	\N	t	Completo	0	2	2
+\.
+
+
+--
+-- Data for Name: disponibilidad_horaria; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.disponibilidad_horaria (id, created, modified, deleted_at, status, day, start_time, end_time, creator_id, modifier_id, teachers_id, term_id, num_end_day, num_start_day, description) FROM stdin;
+10	2020-09-07 02:42:53.180018+00	2020-09-07 14:29:52.199598+00	\N	t	2020-09-07	08:00:00	09:10:00	2	3	20	1	3	1	[Lunes y Miércoles] de 08H:00 a 09H:10
+13	2020-09-07 14:29:52.202542+00	2020-09-07 14:29:52.202589+00	\N	t	\N	13:45:00	14:55:00	3	3	20	1	4	2	[Martes y Jueves] de 13H:45 a 14H:55
+14	2020-09-07 14:35:01.657847+00	2020-09-07 14:35:01.657895+00	\N	t	\N	10:30:00	12:45:00	3	3	29	1	3	1	[Lunes y Miércoles] de 10H:30 a 12H:45
+15	2020-09-07 14:35:01.661476+00	2020-09-07 14:35:01.661535+00	\N	t	\N	13:45:00	15:00:00	3	3	29	1	4	2	[Martes y Jueves] de 13H:45 a 15H:00
+16	2020-09-07 14:36:00.114692+00	2020-09-07 14:36:00.114729+00	\N	t	\N	11:00:00	12:45:00	3	3	28	1	3	1	[Lunes y Miércoles] de 11H:00 a 12H:45
+17	2020-09-07 14:36:00.117089+00	2020-09-07 14:36:00.117126+00	\N	t	\N	13:45:00	14:55:00	3	3	28	1	4	2	[Martes y Jueves] de 13H:45 a 14H:55
+8	2020-09-07 02:40:21.699656+00	2020-09-07 15:04:32.016891+00	\N	t	2020-09-07	07:10:00	08:40:00	2	3	27	1	3	1	[Lunes y Miércoles] de 07H:10 a 08H:40
+18	2020-09-07 15:04:32.019423+00	2020-09-07 15:04:32.019462+00	\N	t	\N	08:45:00	10:15:00	3	3	27	1	4	2	[Martes y Jueves] de 08H:45 a 10H:15
+19	2020-09-07 15:05:44.725384+00	2020-09-07 15:05:44.725421+00	\N	t	\N	18:00:00	19:30:00	3	3	26	1	3	1	[Lunes y Miércoles] de 18H:00 a 19H:30
+20	2020-09-07 15:05:44.727643+00	2020-09-07 15:05:44.727678+00	\N	t	\N	18:00:00	19:30:00	3	3	26	1	4	2	[Martes y Jueves] de 18H:00 a 19H:30
+21	2020-09-07 15:11:57.213246+00	2020-09-07 15:11:57.213284+00	\N	t	\N	07:10:00	08:40:00	3	3	25	1	3	1	[Lunes y Miércoles] de 07H:10 a 08H:40
+22	2020-09-07 15:11:57.215515+00	2020-09-07 15:11:57.21556+00	\N	t	\N	18:00:00	19:30:00	3	3	25	1	4	2	[Martes y Jueves] de 18H:00 a 19H:30
+23	2020-09-07 15:21:56.53285+00	2020-09-07 15:21:56.532888+00	\N	t	\N	10:30:00	12:00:00	3	3	24	1	3	1	[Lunes y Miércoles] de 10H:30 a 12H:00
+24	2020-09-07 15:21:56.535055+00	2020-09-07 15:21:56.53509+00	\N	t	\N	16:20:00	17:50:00	3	3	24	1	4	2	[Martes y Jueves] de 16H:20 a 17H:50
+25	2020-09-07 15:23:11.870306+00	2020-09-07 15:23:11.870346+00	\N	t	\N	12:15:00	13:45:00	3	3	23	1	3	1	[Lunes y Miércoles] de 12H:15 a 13H:45
+26	2020-09-07 15:23:11.872623+00	2020-09-07 15:23:11.872658+00	\N	t	\N	08:45:00	10:15:00	3	3	23	1	4	2	[Martes y Jueves] de 08H:45 a 10H:15
+27	2020-09-07 21:28:17.091112+00	2020-09-07 21:28:17.09118+00	\N	t	\N	10:30:00	12:45:00	3	3	22	1	\N	1	[Lunes] 10H:30 a 12H:45
+28	2020-09-07 21:28:17.094846+00	2020-09-07 21:28:17.094905+00	\N	t	\N	18:00:00	19:30:00	3	3	22	1	\N	2	[Martes] 18H:00 a 19H:30
+12	2020-09-07 02:43:48.136882+00	2020-09-07 21:29:01.855856+00	\N	t	2020-09-10	08:00:00	18:00:00	2	3	21	1	3	1	[Lunes y Miércoles] de 08H:00 a 18H:00
+29	2020-09-07 21:29:01.858822+00	2020-09-07 21:29:01.858866+00	\N	t	\N	08:00:00	18:00:00	3	3	21	1	4	2	[Martes y Jueves] de 08H:00 a 18H:00
+30	2020-09-07 21:29:54.247873+00	2020-09-07 21:29:54.247918+00	\N	t	\N	08:00:00	10:15:00	3	3	19	1	3	1	[Lunes y Miércoles] de 08H:00 a 10H:15
+31	2020-09-07 21:29:54.250425+00	2020-09-07 21:29:54.250467+00	\N	t	\N	13:45:00	14:55:00	3	3	19	1	4	2	[Martes y Jueves] de 13H:45 a 14H:55
+9	2020-09-07 02:41:47.370807+00	2020-09-07 21:30:27.905015+00	\N	t	2020-09-09	08:00:00	18:00:00	2	3	18	1	3	1	[Lunes y Miércoles] de 08H:00 a 18H:00
+32	2020-09-07 21:30:27.907551+00	2020-09-07 21:30:27.907645+00	\N	t	\N	08:00:00	18:00:00	3	3	18	1	4	2	[Martes y Jueves] de 08H:00 a 18H:00
+33	2020-09-07 21:31:00.361901+00	2020-09-07 21:31:00.361938+00	\N	t	\N	07:10:00	08:45:00	3	3	17	1	3	1	[Lunes y Miércoles] de 07H:10 a 08H:45
+34	2020-09-07 21:31:00.364171+00	2020-09-07 21:31:00.364205+00	\N	t	\N	08:45:00	10:15:00	3	3	17	1	4	2	[Martes y Jueves] de 08H:45 a 10H:15
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2020-09-02 14:09:36.993091+00	2	support	1	[{"added": {}}]	4	1
+2	2020-09-02 14:09:46.168754+00	2	support	2	[{"changed": {"fields": ["Staff status"]}}]	4	1
+3	2020-09-02 14:11:12.083336+00	2	support	2	[{"changed": {"fields": ["Superuser status"]}}]	4	1
+4	2020-09-02 14:56:00.585401+00	3	administrador	1	[{"added": {}}]	4	2
+5	2020-09-02 14:56:41.197093+00	3	administrador	2	[{"changed": {"fields": ["Superuser status"]}}]	4	2
+6	2020-09-02 14:56:47.625415+00	3	administrador	2	[]	4	2
+7	2020-09-02 15:14:55.273531+00	1	[F201] F201	1	[{"added": {}}]	16	2
+8	2020-09-02 15:15:40.596047+00	2	[F202] F202	1	[{"added": {}}]	16	2
+9	2020-09-02 15:15:47.220561+00	2	[F202] F202	2	[]	16	2
+10	2020-09-02 15:16:21.534238+00	3	[F206] F206	1	[{"added": {}}]	16	2
+11	2020-09-02 15:19:54.125015+00	4	[F207] F207	1	[{"added": {}}]	16	2
+12	2020-09-02 15:20:35.218345+00	5	[F208] F208	1	[{"added": {}}]	16	2
+13	2020-09-02 15:21:09.472243+00	6	[F209] F209	1	[{"added": {}}]	16	2
+14	2020-09-02 15:21:48.656048+00	7	[F210] F210	1	[{"added": {}}]	16	2
+15	2020-09-02 15:22:18.433535+00	8	[G201] G201	1	[{"added": {}}]	16	2
+16	2020-09-02 15:22:41.194516+00	9	[G202] G202	1	[{"added": {}}]	16	2
+17	2020-09-02 15:23:01.406988+00	10	[G203] G203	1	[{"added": {}}]	16	2
+18	2020-09-02 15:23:32.727866+00	11	[Netw] Laboratorio de Networking	1	[{"added": {}}]	16	2
+19	2020-09-02 15:24:10.225165+00	12	[LabElec] Laboratorio de Electrónica	1	[{"added": {}}]	16	2
+20	2020-09-02 15:31:06.954787+00	1	[1] Parcial	1	[{"added": {}}]	8	2
+21	2020-09-02 15:31:15.121366+00	2	[0] Completo	1	[{"added": {}}]	8	2
+22	2020-09-02 15:36:13.261085+00	1	[UCOM] Ingeniería en Ciencias Computacionales	1	[{"added": {}}, {"added": {"name": "Profesor", "object": "TeacherModel object (1)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (2)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (3)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (4)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (5)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (6)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (7)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (8)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (9)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (10)"}}]	7	2
+23	2020-09-02 15:40:05.56764+00	2	[UTEL] Ingeniería en Telecomunicaciones y Electrónica	1	[{"added": {}}, {"added": {"name": "Profesor", "object": "TeacherModel object (11)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (12)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (13)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (14)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (15)"}}, {"added": {"name": "Profesor", "object": "TeacherModel object (16)"}}]	7	2
+24	2020-09-02 15:40:54.556526+00	1	Carrera: [UCOM], Computación	1	[{"added": {}}]	9	2
+25	2020-09-02 15:41:18.720051+00	2	Carrera: [UTEL], Telecomunicaciones	1	[{"added": {}}]	9	2
+26	2020-09-02 15:41:34.679106+00	1	Ordinario 1	1	[{"added": {}}]	10	2
+27	2020-09-02 15:41:42.512029+00	2	Ordinario 2	1	[{"added": {}}]	10	2
+28	2020-09-02 15:41:53.244535+00	3	Extraordinario	1	[{"added": {}}]	10	2
+29	2020-09-02 15:42:26.121112+00	17	TeacherModel object (17)	1	[{"added": {}}]	11	2
+30	2020-09-02 15:42:57.177978+00	18	TeacherModel object (18)	1	[{"added": {}}]	11	2
+31	2020-09-02 15:44:05.851206+00	19	TeacherModel object (19)	1	[{"added": {}}]	11	2
+32	2020-09-02 15:44:30.629837+00	20	TeacherModel object (20)	1	[{"added": {}}]	11	2
+33	2020-09-02 15:44:56.633255+00	21	TeacherModel object (21)	1	[{"added": {}}]	11	2
+34	2020-09-02 15:45:27.569931+00	22	TeacherModel object (22)	1	[{"added": {}}]	11	2
+35	2020-09-02 15:45:51.715917+00	23	TeacherModel object (23)	1	[{"added": {}}]	11	2
+36	2020-09-02 15:46:12.823871+00	24	TeacherModel object (24)	1	[{"added": {}}]	11	2
+37	2020-09-02 15:46:38.987492+00	25	TeacherModel object (25)	1	[{"added": {}}]	11	2
+38	2020-09-02 15:47:03.298621+00	26	TeacherModel object (26)	1	[{"added": {}}]	11	2
+39	2020-09-02 15:47:24.263598+00	27	TeacherModel object (27)	1	[{"added": {}}]	11	2
+40	2020-09-02 15:47:44.627856+00	28	TeacherModel object (28)	1	[{"added": {}}]	11	2
+41	2020-09-02 16:27:34.15455+00	16	TeacherModel object (16)	3		11	2
+42	2020-09-02 16:27:34.160354+00	15	TeacherModel object (15)	3		11	2
+43	2020-09-02 16:27:34.163777+00	13	TeacherModel object (13)	3		11	2
+44	2020-09-02 16:27:34.166849+00	12	TeacherModel object (12)	3		11	2
+45	2020-09-02 16:27:34.169821+00	8	TeacherModel object (8)	3		11	2
+46	2020-09-02 16:27:34.172798+00	7	TeacherModel object (7)	3		11	2
+47	2020-09-02 16:27:34.175916+00	5	TeacherModel object (5)	3		11	2
+48	2020-09-02 16:36:48.877906+00	3	TeacherModel object (3)	3		11	2
+49	2020-09-02 16:36:48.881903+00	2	TeacherModel object (2)	3		11	2
+50	2020-09-02 16:37:20.152948+00	11	TeacherModel object (11)	3		11	2
+51	2020-09-02 16:37:20.156984+00	10	TeacherModel object (10)	3		11	2
+52	2020-09-02 16:37:20.159651+00	9	TeacherModel object (9)	3		11	2
+53	2020-09-02 16:37:20.162463+00	6	TeacherModel object (6)	3		11	2
+54	2020-09-02 16:37:20.165561+00	4	TeacherModel object (4)	3		11	2
+55	2020-09-02 16:56:16.473942+00	2	[UTEL] Ingeniería en Telecomunicaciones y Electrónica	2	[{"added": {"name": "Profesor", "object": "TeacherModel object (29)"}}]	7	2
+56	2020-09-02 18:40:17.476952+00	14	TeacherModel object (14)	3		11	2
+57	2020-09-02 18:40:17.481678+00	1	TeacherModel object (1)	3		11	2
+58	2020-09-02 19:26:29.30422+00	1	SubjectModel object (1)	1	[{"added": {}}]	12	2
+59	2020-09-02 19:26:51.593115+00	2	SubjectModel object (2)	1	[{"added": {}}]	12	2
+60	2020-09-02 19:27:22.358365+00	3	SubjectModel object (3)	1	[{"added": {}}]	12	2
+61	2020-09-02 19:27:38.742294+00	4	SubjectModel object (4)	1	[{"added": {}}]	12	2
+62	2020-09-02 19:27:56.51172+00	5	SubjectModel object (5)	1	[{"added": {}}]	12	2
+63	2020-09-02 19:28:17.276978+00	6	SubjectModel object (6)	1	[{"added": {}}]	12	2
+64	2020-09-02 19:28:37.567881+00	7	SubjectModel object (7)	1	[{"added": {}}]	12	2
+65	2020-09-02 19:28:58.692925+00	8	SubjectModel object (8)	1	[{"added": {}}]	12	2
+66	2020-09-02 19:29:22.09106+00	9	SubjectModel object (9)	1	[{"added": {}}]	12	2
+67	2020-09-02 19:29:43.258226+00	10	SubjectModel object (10)	1	[{"added": {}}]	12	2
+68	2020-09-02 19:31:02.775282+00	11	SubjectModel object (11)	1	[{"added": {}}]	12	2
+69	2020-09-02 19:31:20.212504+00	12	SubjectModel object (12)	1	[{"added": {}}]	12	2
+70	2020-09-02 19:31:46.51786+00	13	SubjectModel object (13)	1	[{"added": {}}]	12	2
+71	2020-09-02 19:32:06.270707+00	14	SubjectModel object (14)	1	[{"added": {}}]	12	2
+72	2020-09-02 19:32:22.804205+00	15	SubjectModel object (15)	1	[{"added": {}}]	12	2
+73	2020-09-02 19:32:44.110705+00	16	SubjectModel object (16)	1	[{"added": {}}]	12	2
+74	2020-09-02 19:33:03.159976+00	17	SubjectModel object (17)	1	[{"added": {}}]	12	2
+75	2020-09-02 19:33:18.391782+00	18	SubjectModel object (18)	1	[{"added": {}}]	12	2
+76	2020-09-02 19:33:48.477786+00	19	SubjectModel object (19)	1	[{"added": {}}]	12	2
+77	2020-09-02 19:34:03.990514+00	20	SubjectModel object (20)	1	[{"added": {}}]	12	2
+78	2020-09-02 19:34:21.8574+00	21	SubjectModel object (21)	1	[{"added": {}}]	12	2
+79	2020-09-02 19:34:40.407747+00	22	SubjectModel object (22)	1	[{"added": {}}]	12	2
+80	2020-09-02 19:34:57.971977+00	23	SubjectModel object (23)	1	[{"added": {}}]	12	2
+81	2020-09-02 19:35:16.940772+00	24	SubjectModel object (24)	1	[{"added": {}}]	12	2
+82	2020-09-02 19:35:33.213277+00	25	SubjectModel object (25)	1	[{"added": {}}]	12	2
+83	2020-09-02 19:35:49.069502+00	26	SubjectModel object (26)	1	[{"added": {}}]	12	2
+84	2020-09-02 19:36:09.044425+00	27	SubjectModel object (27)	1	[{"added": {}}]	12	2
+85	2020-09-02 19:36:21.821584+00	28	SubjectModel object (28)	1	[{"added": {}}]	12	2
+86	2020-09-02 19:36:38.587427+00	29	SubjectModel object (29)	1	[{"added": {}}]	12	2
+87	2020-09-02 19:37:10.81107+00	30	SubjectModel object (30)	1	[{"added": {}}]	12	2
+88	2020-09-02 19:37:35.634645+00	31	SubjectModel object (31)	1	[{"added": {}}]	12	2
+89	2020-09-02 19:38:08.224941+00	32	SubjectModel object (32)	1	[{"added": {}}]	12	2
+90	2020-09-02 19:38:23.306362+00	33	SubjectModel object (33)	1	[{"added": {}}]	12	2
+91	2020-09-02 19:38:53.706937+00	34	SubjectModel object (34)	1	[{"added": {}}]	12	2
+92	2020-09-02 19:39:17.123951+00	35	SubjectModel object (35)	1	[{"added": {}}]	12	2
+93	2020-09-02 19:39:35.697604+00	36	SubjectModel object (36)	1	[{"added": {}}]	12	2
+94	2020-09-02 19:40:11.813069+00	37	SubjectModel object (37)	1	[{"added": {}}]	12	2
+95	2020-09-02 19:40:39.580468+00	38	SubjectModel object (38)	1	[{"added": {}}]	12	2
+96	2020-09-02 19:40:54.403538+00	39	SubjectModel object (39)	1	[{"added": {}}]	12	2
+97	2020-09-02 19:41:27.241833+00	40	SubjectModel object (40)	1	[{"added": {}}]	12	2
+98	2020-09-02 19:41:48.631827+00	41	SubjectModel object (41)	1	[{"added": {}}]	12	2
+99	2020-09-02 19:42:09.888612+00	42	SubjectModel object (42)	1	[{"added": {}}]	12	2
+100	2020-09-02 19:42:41.687351+00	43	SubjectModel object (43)	1	[{"added": {}}]	12	2
+101	2020-09-02 19:43:13.327642+00	44	SubjectModel object (44)	1	[{"added": {}}]	12	2
+102	2020-09-02 19:43:37.376798+00	45	SubjectModel object (45)	1	[{"added": {}}]	12	2
+103	2020-09-02 19:43:55.399564+00	46	SubjectModel object (46)	1	[{"added": {}}]	12	2
+104	2020-09-02 19:44:16.136619+00	47	SubjectModel object (47)	1	[{"added": {}}]	12	2
+105	2020-09-02 19:44:29.733924+00	48	SubjectModel object (48)	1	[{"added": {}}]	12	2
+106	2020-09-02 19:44:46.714814+00	49	SubjectModel object (49)	1	[{"added": {}}]	12	2
+107	2020-09-02 19:45:08.615712+00	50	SubjectModel object (50)	1	[{"added": {}}]	12	2
+108	2020-09-02 19:45:31.500355+00	51	SubjectModel object (51)	1	[{"added": {}}]	12	2
+109	2020-09-03 16:12:21.10564+00	3	administrador	2	[{"changed": {"fields": ["Staff status"]}}]	4	2
+110	2020-09-03 16:13:22.537184+00	3	administrador	2	[{"changed": {"fields": ["First name", "Last name", "Email address"]}}]	4	2
+111	2020-09-07 01:09:27.511218+00	7	[Monday] | 20:04-21:00	1	[{"added": {}}]	17	1
+112	2020-09-07 02:40:21.703333+00	8	[Monday] | 06:00-08:45	1	[{"added": {}}]	17	2
+113	2020-09-07 02:41:47.374348+00	9	[Wednesday] | 08:00-18:00	1	[{"added": {}}]	17	2
+114	2020-09-07 02:42:13.82519+00	7	[Monday] | 20:04-21:00	3		17	2
+115	2020-09-07 02:42:53.183108+00	10	[Monday] | 08:00-18:00	1	[{"added": {}}]	17	2
+116	2020-09-07 02:43:14.192684+00	11	[Tuesday] | 08:00-18:00	1	[{"added": {}}]	17	2
+117	2020-09-07 02:43:48.142325+00	12	[Thursday] | 08:00-18:00	1	[{"added": {}}]	17	2
+118	2020-09-07 08:55:42.589619+00	9	 Ordinario 2-[UTEL] Ingeniería en Telecomunicaciones y Electrónica	2	[{"changed": {"fields": ["Status"]}}]	14	1
+119	2020-09-07 08:55:42.604573+00	7	 Ordinario 2-[UTEL] Ingeniería en Telecomunicaciones y Electrónica	2	[{"changed": {"fields": ["Status", "Estado"]}}]	14	1
+120	2020-09-07 08:55:42.617554+00	5	 Ordinario 2-[UTEL] Ingeniería en Telecomunicaciones y Electrónica	2	[{"changed": {"fields": ["Status", "Estado"]}}]	14	1
+121	2020-09-07 09:14:16.814454+00	1	S1	1	[{"added": {}}]	15	2
+122	2020-09-07 09:25:09.787173+00	2	S2	1	[{"added": {}}]	15	2
+123	2020-09-07 09:25:56.018447+00	3	S3	1	[{"added": {}}]	15	2
+124	2020-09-07 09:26:29.101223+00	4	S4	1	[{"added": {}}]	15	2
+125	2020-09-07 12:34:35.687438+00	5	S5	1	[{"added": {}}]	15	2
+126	2020-09-07 12:35:24.01059+00	6	S6	1	[{"added": {}}]	15	2
+127	2020-09-07 12:35:58.185679+00	7	S7	1	[{"added": {}}]	15	2
+128	2020-09-07 12:36:23.382372+00	8	S8	1	[{"added": {}}]	15	2
+129	2020-09-07 14:09:19.938044+00	20	[LL] Lohana Lema	2	[{"changed": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 08H:00 a 18H:00", "fields": ["D\\u00eda 2"]}}, {"deleted": {"name": "Disponibilidad horaria", "object": "[Lunes] 08H:00 a 18H:00"}}]	11	1
+130	2020-09-07 14:10:23.96073+00	18	[WC] Washington Caraguay	2	[{"changed": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 08H:00 a 09H:00", "fields": ["D\\u00eda 2", "Hora fin"]}}]	11	1
+131	2020-09-07 14:11:07.766887+00	27	[RP] Rubén Pacheco	2	[{"changed": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 09H:00 a 10H:00", "fields": ["D\\u00eda 2", "Hora inicio", "Hora fin"]}}]	11	1
+132	2020-09-07 14:29:52.205258+00	20	[LL] Lohana Lema	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 13H:45 a 14H:55"}}, {"changed": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 08H:00 a 09H:10", "fields": ["Hora fin"]}}]	11	3
+133	2020-09-07 14:35:01.664068+00	29	[JP] Julian Perez	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 10H:30 a 12H:45"}}, {"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 13H:45 a 15H:00"}}]	11	3
+134	2020-09-07 14:36:00.119621+00	28	[RR] Ricardo Rendón	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 11H:00 a 12H:45"}}, {"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 13H:45 a 14H:55"}}]	11	3
+135	2020-09-07 15:03:33.467411+00	29	[JP] Julian Perez	2	[]	11	3
+136	2020-09-07 15:04:32.024578+00	27	[RP] Rubén Pacheco	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 08H:45 a 10H:15"}}, {"changed": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 07H:10 a 08H:40", "fields": ["Hora inicio", "Hora fin"]}}]	11	3
+137	2020-09-07 15:05:44.729364+00	26	[CMH] Christian Merchán	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 18H:00 a 19H:30"}}, {"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 18H:00 a 19H:30"}}]	11	3
+197	2020-09-08 17:14:49.817862+00	31	Nivel 3-Fundamentos de Programación	1	[{"added": {}}]	13	3
+198	2020-09-08 17:15:04.294125+00	32	Nivel 2-Fisíca II	1	[{"added": {}}]	13	3
+138	2020-09-07 15:11:57.218391+00	25	[FA] Fausto Alban	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 07H:10 a 08H:40"}}, {"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 18H:00 a 19H:30"}}]	11	3
+139	2020-09-07 15:21:56.536884+00	24	[LB] Luis Benavides	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 10H:30 a 12H:00"}}, {"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 16H:20 a 17H:50"}}]	11	3
+140	2020-09-07 15:23:11.874381+00	23	[VA] Vilma Alvarez	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 12H:15 a 13H:45"}}, {"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 08H:45 a 10H:15"}}]	11	3
+141	2020-09-07 21:22:53.232303+00	1	[UCOM] Ingeniería en Ciencias Computacionales	2	[{"changed": {"fields": ["Alias"]}}]	7	3
+142	2020-09-07 21:23:04.02675+00	2	[UTEL] Ingeniería en Telecomunicaciones y Electrónica	2	[{"changed": {"fields": ["Alias"]}}]	7	3
+143	2020-09-07 21:23:38.891994+00	29	[JP] Julian Perez	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+144	2020-09-07 21:23:50.600728+00	28	[RR] Ricardo Rendón	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+145	2020-09-07 21:24:04.433426+00	27	[RP] Rubén Pacheco	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+146	2020-09-07 21:24:16.535866+00	26	[CMH] Christian Merchán	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+147	2020-09-07 21:24:28.201499+00	25	[FA] Fausto Alban	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+148	2020-09-07 21:24:42.302939+00	25	[FA] Fausto Alban	2	[]	11	3
+149	2020-09-07 21:24:51.423426+00	25	[FA] Fausto Alban	2	[]	11	3
+150	2020-09-07 21:25:00.042778+00	24	[LB] Luis Benavides	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+151	2020-09-07 21:25:08.531937+00	23	[VA] Vilma Alvarez	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+152	2020-09-07 21:25:16.829693+00	22	[MT] Marcos Tobar	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+153	2020-09-07 21:25:29.370434+00	21	[MS] Marco Sotomayor	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+154	2020-09-07 21:25:37.433411+00	20	[LL] Lohana Lema	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+155	2020-09-07 21:25:47.471024+00	19	[RC] Roberto Cascante	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+156	2020-09-07 21:25:58.986115+00	18	[WC] Washington Caraguay	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+157	2020-09-07 21:26:09.508291+00	17	[CM] Carlos Martín	2	[{"changed": {"fields": ["Habilidad"]}}]	11	3
+158	2020-09-07 21:28:17.097522+00	22	[MT] Marcos Tobar	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Lunes] 10H:30 a 12H:45"}}, {"added": {"name": "Disponibilidad horaria", "object": "[Martes] 18H:00 a 19H:30"}}]	11	3
+159	2020-09-07 21:29:01.861354+00	21	[MS] Marco Sotomayor	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 08H:00 a 18H:00"}}, {"changed": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 08H:00 a 18H:00", "fields": ["D\\u00eda 2"]}}]	11	3
+160	2020-09-07 21:29:54.252373+00	19	[RC] Roberto Cascante	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 08H:00 a 10H:15"}}, {"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 13H:45 a 14H:55"}}]	11	3
+161	2020-09-07 21:30:27.909688+00	18	[WC] Washington Caraguay	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 08H:00 a 18H:00"}}, {"changed": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 08H:00 a 18H:00", "fields": ["Hora fin"]}}]	11	3
+162	2020-09-07 21:31:00.366011+00	17	[CM] Carlos Martín	2	[{"added": {"name": "Disponibilidad horaria", "object": "[Lunes y Mi\\u00e9rcoles] de 07H:10 a 08H:45"}}, {"added": {"name": "Disponibilidad horaria", "object": "[Martes y Jueves] de 08H:45 a 10H:15"}}]	11	3
+163	2020-09-07 21:31:10.042851+00	29	[JP] Julian Perez	2	[{"changed": {"fields": ["Status"]}}]	11	3
+164	2020-09-08 07:18:23.868504+00	1	[UMAT205] Algebra Lineal	2	[]	12	1
+165	2020-09-08 07:24:14.53736+00	1	Nivel 1-Algebra Lineal	1	[{"added": {}}]	13	1
+166	2020-09-08 15:57:19.179876+00	1	Nivel 1-Algebra Lineal	2	[]	13	3
+167	2020-09-08 16:12:52.246967+00	2	Nivel 3-Desarrollo Sostenible	1	[{"added": {}}]	13	3
+168	2020-09-08 16:13:08.390376+00	3	Nivel 2-Fundamentos de la Acción Humana	1	[{"added": {}}]	13	3
+169	2020-09-08 16:13:21.703924+00	4	Nivel 2-Liderazgo Emprendedor	1	[{"added": {}}]	13	3
+170	2020-09-08 16:13:34.058482+00	5	Nivel 1-Ética	1	[{"added": {}}]	13	3
+171	2020-09-08 16:14:08.818392+00	6	Nivel 8-Fibra Óptica y SCE	1	[{"added": {}}]	13	3
+172	2020-09-08 16:14:36.751605+00	7	Nivel 8-Telerobótica	1	[{"added": {}}]	13	3
+173	2020-09-08 16:14:59.811709+00	8	Nivel 7-Control y Simulación de Robots	1	[{"added": {}}]	13	3
+174	2020-09-08 16:15:25.156183+00	9	Nivel 7-Telefonía y redes de nueva generación	1	[{"added": {}}]	13	3
+175	2020-09-08 16:20:57.957052+00	10	Nivel 7-Microondas y transmisión satélital	1	[{"added": {}}]	13	3
+176	2020-09-08 16:21:15.372825+00	11	Nivel 7-Microcontroladores	1	[{"added": {}}]	13	3
+177	2020-09-08 16:21:29.40291+00	12	Nivel 6-Propagación de Ondas y Antenas	1	[{"added": {}}]	13	3
+178	2020-09-08 16:21:53.348019+00	13	Nivel 5-Sistemas de Comunicación Digitales	1	[{"added": {}}]	13	3
+179	2020-09-08 16:22:45.451614+00	13	Nivel 6-Sistemas de Comunicación Digitales	2	[{"changed": {"fields": ["Nivel"]}}]	13	3
+180	2020-09-08 16:23:04.398932+00	14	Nivel 6-Electrónica II	1	[{"added": {}}]	13	3
+181	2020-09-08 16:23:20.311679+00	15	Nivel 5-Líneas de Transmisión	1	[{"added": {}}]	13	3
+182	2020-09-08 16:59:08.425537+00	16	Nivel 5-Sistemas de Comunicaciones Analógicas y Digitales	1	[{"added": {}}]	13	3
+183	2020-09-08 17:06:44.946357+00	17	Nivel 5-Electrónica I	1	[{"added": {}}]	13	3
+184	2020-09-08 17:07:09.984016+00	18	Nivel 4-Introducción a las Telecomunicaciones	1	[{"added": {}}]	13	3
+185	2020-09-08 17:07:47.718906+00	19	Nivel 4-Teoría Electromagnética	1	[{"added": {}}]	13	3
+186	2020-09-08 17:08:05.854074+00	20	Nivel 4-Teoría de señales	1	[{"added": {}}]	13	3
+187	2020-09-08 17:08:59.413337+00	21	Nivel 4-Teoría de Circuitos Electrónicos	1	[{"added": {}}]	13	3
+188	2020-09-08 17:09:23.11281+00	22	Nivel 8-Técnicas profesionales supervisadas	1	[{"added": {}}]	13	3
+189	2020-09-08 17:09:40.604696+00	23	Nivel 8-Problemas sociales y prácticas preprofesionales	1	[{"added": {}}]	13	3
+190	2020-09-08 17:10:15.823739+00	24	Nivel 7-Sistemas Inteligentes	1	[{"added": {}}]	13	3
+191	2020-09-08 17:10:45.004639+00	25	Nivel 6-Robótica	1	[{"added": {}}]	13	3
+192	2020-09-08 17:11:27.255343+00	26	Nivel 5-Redes y Comunicaciones	1	[{"added": {}}]	13	3
+193	2020-09-08 17:12:03.061161+00	27	Nivel 4-Lógica Digital	1	[{"added": {}}]	13	3
+194	2020-09-08 17:12:34.192747+00	28	Nivel 3-Matemáticas III	1	[{"added": {}}]	13	3
+195	2020-09-08 17:14:08.880455+00	29	Nivel 3-Análisis de Datos	1	[{"added": {}}]	13	3
+196	2020-09-08 17:14:32.111236+00	30	Nivel 3-Matemáticas Discretas	1	[{"added": {}}]	13	3
+199	2020-09-08 17:15:16.801435+00	33	Nivel 2-Matemáticas II	1	[{"added": {}}]	13	3
+200	2020-09-08 17:15:35.194411+00	34	Nivel 2-Probabilidad y Estadística	1	[{"added": {}}]	13	3
+201	2020-09-08 17:15:53.280374+00	35	Nivel 1-Fisíca I	1	[{"added": {}}]	13	3
+202	2020-09-08 17:16:03.901821+00	36	Nivel 1-Matemáticas I	1	[{"added": {}}]	13	3
+203	2020-09-08 17:16:28.177013+00	37	Nivel 8-Fundamentos de Computación Forense	1	[{"added": {}}]	13	3
+204	2020-09-08 17:16:56.407089+00	38	Nivel 8-Ethical Hacking	1	[{"added": {}}]	13	3
+205	2020-09-08 17:17:38.423519+00	39	Nivel 8-Interacción Hombre Máquina	1	[{"added": {}}]	13	3
+206	2020-09-08 17:17:59.240008+00	40	Nivel 7-Sistemas de Información	1	[{"added": {}}]	13	3
+207	2020-09-08 17:18:41.186289+00	41	Nivel 7-Sistemas Distribuidos	1	[{"added": {}}]	13	3
+208	2020-09-08 17:19:23.553178+00	42	Nivel 7-Ingeniería de Software II	1	[{"added": {}}]	13	3
+209	2020-09-08 17:19:44.360035+00	43	Nivel 6-Sistemas Operativos	1	[{"added": {}}]	13	3
+210	2020-09-08 17:20:09.1249+00	44	Nivel 6-Procesamiento masivo de Datos	1	[{"added": {}}]	13	3
+211	2020-09-08 17:20:31.90025+00	45	Nivel 6-Ingeniería de Software I	1	[{"added": {}}]	13	3
+212	2020-09-08 17:20:50.042645+00	46	Nivel 5-Base de Datos II	1	[{"added": {}}]	13	3
+213	2020-09-08 17:21:06.495431+00	47	Nivel 5-Análisis de algoritmos	1	[{"added": {}}]	13	3
+214	2020-09-08 17:21:22.64497+00	48	Nivel 4-Estructura de Datos	1	[{"added": {}}]	13	3
+215	2020-09-08 17:21:38.289674+00	49	Nivel 4-Base de Datos I	1	[{"added": {}}]	13	3
+216	2020-09-08 17:21:58.609296+00	50	Nivel 4-Organización y arquitectura de computadoras	1	[{"added": {}}]	13	3
+217	2020-09-08 17:22:14.503961+00	51	Nivel 4-Computación y Sociedad	1	[{"added": {}}]	13	3
+218	2020-09-08 19:35:30.823973+00	7	P2	2	[{"changed": {"fields": ["Nombre"]}}]	15	3
+219	2020-09-08 19:35:44.466415+00	6	P3	2	[{"changed": {"fields": ["Nombre"]}}]	15	3
+220	2020-09-08 19:35:56.219049+00	5	P4	2	[{"changed": {"fields": ["Nombre"]}}]	15	3
+221	2020-09-08 19:36:09.00962+00	4	P5	2	[{"changed": {"fields": ["Nombre"]}}]	15	3
+222	2020-09-08 19:36:18.278621+00	3	P6	2	[{"changed": {"fields": ["Nombre"]}}]	15	3
+223	2020-09-08 19:36:26.388637+00	2	P7	2	[{"changed": {"fields": ["Nombre"]}}]	15	3
+224	2020-09-08 19:36:35.5668+00	1	P8	2	[{"changed": {"fields": ["Nombre"]}}]	15	3
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	main	careermodel
+8	main	contractmodel
+9	main	meshmodel
+10	main	termmodel
+11	main	teachermodel
+12	main	subjectmodel
+13	main	subjectmeshmodel
+14	main	planmodel
+15	main	parallelmodel
+16	main	classroommodel
+17	main	timeavailabilitymodel
+18	files	filversionmodel
+19	files	ibmschedulemodel
+20	files	filversiondetailmodel
+21	main	lineitemschedulemodel
+22	main	basicparallelmodel
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2020-09-02 14:06:45.894247+00
+2	auth	0001_initial	2020-09-02 14:06:45.976778+00
+3	admin	0001_initial	2020-09-02 14:06:46.091911+00
+4	admin	0002_logentry_remove_auto_add	2020-09-02 14:06:46.122867+00
+5	admin	0003_logentry_add_action_flag_choices	2020-09-02 14:06:46.143789+00
+6	contenttypes	0002_remove_content_type_name	2020-09-02 14:06:46.198709+00
+7	auth	0002_alter_permission_name_max_length	2020-09-02 14:06:46.220199+00
+8	auth	0003_alter_user_email_max_length	2020-09-02 14:06:46.243369+00
+9	auth	0004_alter_user_username_opts	2020-09-02 14:06:46.260293+00
+10	auth	0005_alter_user_last_login_null	2020-09-02 14:06:46.27749+00
+11	auth	0006_require_contenttypes_0002	2020-09-02 14:06:46.28226+00
+12	auth	0007_alter_validators_add_error_messages	2020-09-02 14:06:46.304395+00
+13	auth	0008_alter_user_username_max_length	2020-09-02 14:06:46.333961+00
+14	auth	0009_alter_user_last_name_max_length	2020-09-02 14:06:46.363321+00
+15	auth	0010_alter_group_name_max_length	2020-09-02 14:06:46.389686+00
+16	auth	0011_update_proxy_permissions	2020-09-02 14:06:46.411655+00
+17	auth	0012_alter_user_first_name_max_length	2020-09-02 14:06:46.43308+00
+18	main	0001_initial	2020-09-02 14:06:46.762837+00
+19	files	0001_initial	2020-09-02 14:06:47.061153+00
+20	main	0002_auto_20200830_0353	2020-09-02 14:06:47.195917+00
+21	main	0003_auto_20200901_1453	2020-09-02 14:06:47.393233+00
+22	main	0004_auto_20200901_1514	2020-09-02 14:06:47.666867+00
+23	main	0005_timeavailabilitymodel	2020-09-02 14:06:47.723808+00
+24	sessions	0001_initial	2020-09-02 14:06:47.767361+00
+25	files	0002_auto_20200902_2057	2020-09-04 05:43:36.351219+00
+26	main	0006_auto_20200902_2057	2020-09-04 05:43:36.580388+00
+27	main	0007_auto_20200903_2052	2020-09-04 05:43:36.703773+00
+28	main	0008_planmodel_state	2020-09-05 20:58:43.734041+00
+29	main	0009_auto_20200905_1027	2020-09-05 20:58:43.883969+00
+30	main	0010_remove_timeavailabilitymodel_plan	2020-09-05 20:58:43.9705+00
+31	main	0011_timeavailabilitymodel_day2	2020-09-05 20:58:44.031257+00
+32	main	0012_auto_20200906_2044	2020-09-07 08:29:16.815078+00
+33	main	0013_auto_20200906_2145	2020-09-07 08:29:17.097863+00
+34	main	0014_timeavailabilitymodel_description	2020-09-07 08:29:17.170916+00
+35	main	0015_lineitemschedulemodel_parallel	2020-09-07 08:29:17.241542+00
+36	main	0016_teachermodel_afinity	2020-09-07 08:29:17.311159+00
+37	main	0017_careermodel_alias	2020-09-07 20:42:34.261083+00
+38	main	0018_auto_20200907_1344	2020-09-07 20:42:34.353426+00
+39	main	0019_auto_20200907_2159	2020-09-08 06:19:59.169135+00
+40	main	0020_auto_20200907_2316	2020-09-08 06:19:59.46092+00
+41	main	0021_auto_20200908_0051	2020-09-08 06:19:59.620796+00
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+9jcpsubn7z1bq7bgnaswrh2cof9bks93	.eJxVjDsOwjAQBe_iGln-x6Gk5wzWrneNA8iR4qRC3B0ipYD2zcx7iQTbWtPWeUkTibPQ4vS7IeQHtx3QHdptlnlu6zKh3BV50C6vM_Hzcrh_BxV6_dYeM4wmDFHb0aIpBayCGItVDi2ZgVXJno02UUNgcsYjF8vKOSJPQYn3B9-6N_E:1kFHTC:yjZ4gsi54d7Rd2GWhGdXej9Kdsyd0-3Zd9oAV_C9e3Y	2020-09-21 13:46:06.466295+00
+1a6d7s7rk3dox4o1ffxee34k6hofjzug	.eJxVjMsOgjAUBf-la9MU2nrBpXu_gdxXLWpKQmFl_HchYaHbMzPnbQZclzysVedhFHMxrTn9boT81LIDeWC5T5ansswj2V2xB632Nom-rof7d5Cx5q0OTiSpIyUPDLEDpoih17aBJkEKkRRR2DtyypEBoQ8gm-GBoDuT-XwBDXQ4xw:1kDUK9:JVwajJKzBUQr66EP0GH-ca8PEl-FbQQeQSQ17CamsEg	2020-09-16 15:05:21.783915+00
+t5gxbxp8oe8e25wt2dxxgf40a3mboufj	.eJxVjDsOwjAQBe_iGlnx36Gkzxkse3eNA8iW4qRC3J1ESgHtzLz3ZiFuawlbpyXMyK5MscsvSxGeVA-Bj1jvjUOr6zInfiT8tJ1PDel1O9u_gxJ72deZBIEzpFGL0ZJJchx0cihditkIlQkEZIVeei-TzhlRQyQ7SKl3aNnnCwQEOJc:1kFIMC:V0HbpX-m21hT6E2nDBLwbvSgQwFhmKLoMDfqdYvPomI	2020-09-21 14:42:56.360211+00
+i68nza8cl475k2vjeu1gqopw2xvmjo2u	.eJxVjMsOgjAUBf-la9MU2nrBpXu_gdxXLWpKQmFl_HchYaHbMzPnbQZclzysVedhFHMxrTn9boT81LIDeWC5T5ansswj2V2xB632Nom-rof7d5Cx5q0OTiSpIyUPDLEDpoih17aBJkEKkRRR2DtyypEBoQ8gm-GBoDuT-XwBDXQ4xw:1kFITT:YYWU8dWrRjVE__tNaa_Z5Dbv1A00_n--duWi7Uk6s1c	2020-09-21 14:50:27.329564+00
+oy7g0h3ungulfiasngsen4n4uo3r07cu	.eJxVjDsOwjAQBe_iGlnx36Gkzxkse3eNA8iW4qRC3J1ESgHtzLz3ZiFuawlbpyXMyK5MscsvSxGeVA-Bj1jvjUOr6zInfiT8tJ1PDel1O9u_gxJ72deZBIEzpFGL0ZJJchx0cihditkIlQkEZIVeei-TzhlRQyQ7SKl3aNnnCwQEOJc:1kFJLg:SpMqFtbyKYdEi68AfAinHEgQ6QcSYxq-5TjNrCKb69s	2020-09-21 15:46:28.817401+00
+j22cfbv2gdv4xyj34ewj1ocz6yhvq50u	.eJxVjDsOwjAQBe_iGlnx36Gkzxkse3eNA8iW4qRC3J1ESgHtzLz3ZiFuawlbpyXMyK5MscsvSxGeVA-Bj1jvjUOr6zInfiT8tJ1PDel1O9u_gxJ72deZBIEzpFGL0ZJJchx0cihditkIlQkEZIVeei-TzhlRQyQ7SKl3aNnnCwQEOJc:1kFP79:Kay8AqD_Xlb7GLnkymdUQ2YKnG_dlc8du4wxKvhVY5c	2020-09-21 21:55:51.465709+00
+\.
+
+
+--
+-- Data for Name: horario_ibm; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.horario_ibm (id, created, modified, deleted_at, status, day_week, start_time, end_time, assigned_teacher, assigned_classroom, creator_id, file_version_id, modifier_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: malla; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.malla (id, created, modified, deleted_at, status, name, year, career_id, creator_id, modifier_id, subject_mesh_id) FROM stdin;
+1	2020-09-02 15:40:54.550128+00	2020-09-02 15:40:54.550281+00	\N	t	Computación	2019	1	2	2	\N
+2	2020-09-02 15:41:18.717796+00	2020-09-02 15:41:18.717843+00	\N	t	Telecomunicaciones	2019	2	2	2	\N
+\.
+
+
+--
+-- Data for Name: materia; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.materia (id, created, modified, deleted_at, status, name, code, creator_id, modifier_id) FROM stdin;
+2	2020-09-02 19:26:51.59042+00	2020-09-02 19:26:51.590482+00	\N	t	Computación y Sociedad	UCOM180	2	2
+3	2020-09-02 19:27:22.355371+00	2020-09-02 19:27:22.355442+00	\N	t	Organización y arquitectura de computadoras	UCOM250	2	2
+4	2020-09-02 19:27:38.73927+00	2020-09-02 19:27:38.739342+00	\N	t	Base de Datos I	UCOM204	2	2
+5	2020-09-02 19:27:56.509309+00	2020-09-02 19:27:56.509378+00	\N	t	Estructura de Datos	UCOM203	2	2
+6	2020-09-02 19:28:17.274584+00	2020-09-02 19:28:17.27463+00	\N	t	Análisis de algoritmos	UCOM306	2	2
+7	2020-09-02 19:28:37.565626+00	2020-09-02 19:28:37.565674+00	\N	t	Base de Datos II	UCOM253	2	2
+8	2020-09-02 19:28:58.690533+00	2020-09-02 19:28:58.690584+00	\N	t	Ingeniería de Software I	UCOM301	2	2
+9	2020-09-02 19:29:22.088661+00	2020-09-02 19:29:22.088707+00	\N	t	Procesamiento masivo de Datos	UCOM1358	2	2
+10	2020-09-02 19:29:43.256+00	2020-09-02 19:29:43.256045+00	\N	t	Sistemas Operativos	UCOM418	2	2
+11	2020-09-02 19:31:02.77305+00	2020-09-02 19:31:02.773096+00	\N	t	Ingeniería de Software II	UCOM390	2	2
+12	2020-09-02 19:31:20.210144+00	2020-09-02 19:31:20.210287+00	\N	t	Sistemas Distribuidos	UCOM465	2	2
+13	2020-09-02 19:31:46.515442+00	2020-09-02 19:31:46.515491+00	\N	t	Sistemas de Información	UCOM469	2	2
+14	2020-09-02 19:32:06.268373+00	2020-09-02 19:32:06.268418+00	\N	t	Interacción Hombre Máquina	UCOM408	2	2
+15	2020-09-02 19:32:22.80238+00	2020-09-02 19:32:22.802424+00	\N	t	Ethical Hacking	UCOM425	2	2
+16	2020-09-02 19:32:44.107502+00	2020-09-02 19:32:44.107576+00	\N	t	Fundamentos de Computación Forense	UCOM550	2	2
+17	2020-09-02 19:33:03.156767+00	2020-09-02 19:33:03.15683+00	\N	t	Matemáticas I	UMAT102	2	2
+18	2020-09-02 19:33:18.388355+00	2020-09-02 19:33:18.388419+00	\N	t	Fisíca I	UFIS105	2	2
+19	2020-09-02 19:33:48.474332+00	2020-09-02 19:33:48.474407+00	\N	t	Probabilidad y Estadística	UMAT251	2	2
+20	2020-09-02 19:34:03.987577+00	2020-09-02 19:34:03.987623+00	\N	t	Matemáticas II	UMAT192	2	2
+21	2020-09-02 19:34:21.854914+00	2020-09-02 19:34:21.854964+00	\N	t	Fisíca II	UFIS150	2	2
+22	2020-09-02 19:34:40.405433+00	2020-09-02 19:34:40.405485+00	\N	t	Fundamentos de Programación	UCOM190	2	2
+23	2020-09-02 19:34:57.968926+00	2020-09-02 19:34:57.969004+00	\N	t	Matemáticas Discretas	UMAT191	2	2
+24	2020-09-02 19:35:16.93816+00	2020-09-02 19:35:16.938328+00	\N	t	Análisis de Datos	UFORU1120	2	2
+25	2020-09-02 19:35:33.210794+00	2020-09-02 19:35:33.210842+00	\N	t	Matemáticas III	UMAT202	2	2
+26	2020-09-02 19:35:49.065478+00	2020-09-02 19:35:49.065561+00	\N	t	Lógica Digital	UELE240	2	2
+27	2020-09-02 19:36:09.042507+00	2020-09-02 19:36:09.042543+00	\N	t	Redes y Comunicaciones	UTEL360	2	2
+28	2020-09-02 19:36:21.819256+00	2020-09-02 19:36:21.819303+00	\N	t	Robótica	UCOM1357	2	2
+29	2020-09-02 19:36:38.58477+00	2020-09-02 19:36:38.584817+00	\N	t	Sistemas Inteligentes	UCOM1409	2	2
+30	2020-09-02 19:37:10.808437+00	2020-09-02 19:37:10.808502+00	\N	t	Problemas sociales y prácticas preprofesionales	UCOM0459	2	2
+31	2020-09-02 19:37:35.632289+00	2020-09-02 19:37:35.632336+00	\N	t	Técnicas profesionales supervisadas	UCOM0460	2	2
+32	2020-09-02 19:38:08.2226+00	2020-09-02 19:38:08.222647+00	\N	t	Teoría de Circuitos Electrónicos	UELE202	2	2
+33	2020-09-02 19:38:23.302882+00	2020-09-02 19:38:23.302952+00	\N	t	Teoría de señales	UTEL204	2	2
+34	2020-09-02 19:38:53.704539+00	2020-09-02 19:38:53.704587+00	\N	t	Teoría Electromagnética	UTEL433	2	2
+35	2020-09-02 19:39:17.121545+00	2020-09-02 19:39:17.121609+00	\N	t	Introducción a las Telecomunicaciones	UTEL303	2	2
+36	2020-09-02 19:39:35.695304+00	2020-09-02 19:39:35.695351+00	\N	t	Electrónica I	UELE351	2	2
+37	2020-09-02 19:40:11.810564+00	2020-09-02 19:40:11.810619+00	\N	t	Sistemas de Comunicaciones Analógicas y Digitales	UTEL352	2	2
+38	2020-09-02 19:40:39.57856+00	2020-09-02 19:40:39.578602+00	\N	t	Líneas de Transmisión	UTEL554	2	2
+39	2020-09-02 19:40:54.401183+00	2020-09-02 19:40:54.401229+00	\N	t	Electrónica II	UELE402	2	2
+40	2020-09-02 19:41:27.239384+00	2020-09-02 19:41:27.239431+00	\N	t	Sistemas de Comunicación Digitales	UTEL1453	2	2
+41	2020-09-02 19:41:48.629119+00	2020-09-02 19:41:48.629192+00	\N	t	Propagación de Ondas y Antenas	UTEL402	2	2
+42	2020-09-02 19:42:09.886418+00	2020-09-02 19:42:09.886463+00	\N	t	Microcontroladores	UELE330	2	2
+43	2020-09-02 19:42:41.684663+00	2020-09-02 19:42:41.684752+00	\N	t	Microondas y transmisión satélital	UTEL420	2	2
+44	2020-09-02 19:43:13.324855+00	2020-09-02 19:43:13.32495+00	\N	t	Telefonía y redes de nueva generación	UTEL432	2	2
+45	2020-09-02 19:43:37.374581+00	2020-09-02 19:43:37.374631+00	\N	t	Control y Simulación de Robots	USIST1400	2	2
+46	2020-09-02 19:43:55.39687+00	2020-09-02 19:43:55.396917+00	\N	t	Telerobótica	UTEL1454	2	2
+47	2020-09-02 19:44:16.134091+00	2020-09-02 19:44:16.134137+00	\N	t	Fibra Óptica y SCE	UTEL0455	2	2
+48	2020-09-02 19:44:29.731279+00	2020-09-02 19:44:29.731324+00	\N	t	Ética	UFORU1103	2	2
+49	2020-09-02 19:44:46.712274+00	2020-09-02 19:44:46.712322+00	\N	t	Liderazgo Emprendedor	UFORU1151	2	2
+50	2020-09-02 19:45:08.612981+00	2020-09-02 19:45:08.613025+00	\N	t	Fundamentos de la Acción Humana	UFORU1150	2	2
+51	2020-09-02 19:45:31.496973+00	2020-09-02 19:45:31.497038+00	\N	t	Desarrollo Sostenible	UFORU1200	2	2
+1	2020-09-02 19:26:29.296145+00	2020-09-08 07:18:23.862663+00	\N	t	Algebra Lineal	UMAT205	2	1
+\.
+
+
+--
+-- Data for Name: materia_malla; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.materia_malla (id, created, modified, deleted_at, status, creator_id, modifier_id, subject_id, level) FROM stdin;
+1	2020-09-08 07:24:14.532411+00	2020-09-08 15:57:19.174248+00	\N	t	1	3	1	1
+2	2020-09-08 16:12:52.244755+00	2020-09-08 16:12:52.244803+00	\N	t	3	3	51	3
+3	2020-09-08 16:13:08.387673+00	2020-09-08 16:13:08.38772+00	\N	t	3	3	50	2
+4	2020-09-08 16:13:21.701818+00	2020-09-08 16:13:21.701864+00	\N	t	3	3	49	2
+5	2020-09-08 16:13:34.056038+00	2020-09-08 16:13:34.056088+00	\N	t	3	3	48	1
+6	2020-09-08 16:14:08.816713+00	2020-09-08 16:14:08.816751+00	\N	t	3	3	47	8
+7	2020-09-08 16:14:36.749559+00	2020-09-08 16:14:36.749607+00	\N	t	3	3	46	8
+8	2020-09-08 16:14:59.80816+00	2020-09-08 16:14:59.808277+00	\N	t	3	3	45	7
+9	2020-09-08 16:15:25.1535+00	2020-09-08 16:15:25.153549+00	\N	t	3	3	44	7
+10	2020-09-08 16:20:57.95477+00	2020-09-08 16:20:57.954821+00	\N	t	3	3	43	7
+11	2020-09-08 16:21:15.370682+00	2020-09-08 16:21:15.370729+00	\N	t	3	3	42	7
+12	2020-09-08 16:21:29.400773+00	2020-09-08 16:21:29.40082+00	\N	t	3	3	41	6
+13	2020-09-08 16:21:53.345909+00	2020-09-08 16:22:45.448738+00	\N	t	3	3	40	6
+14	2020-09-08 16:23:04.396846+00	2020-09-08 16:23:04.396892+00	\N	t	3	3	39	6
+15	2020-09-08 16:23:20.308559+00	2020-09-08 16:23:20.308628+00	\N	t	3	3	38	5
+16	2020-09-08 16:59:08.423437+00	2020-09-08 16:59:08.423487+00	\N	t	3	3	37	5
+17	2020-09-08 17:06:44.944176+00	2020-09-08 17:06:44.944225+00	\N	t	3	3	36	5
+18	2020-09-08 17:07:09.981773+00	2020-09-08 17:07:09.981819+00	\N	t	3	3	35	4
+19	2020-09-08 17:07:47.71666+00	2020-09-08 17:07:47.716707+00	\N	t	3	3	34	4
+20	2020-09-08 17:08:05.851265+00	2020-09-08 17:08:05.851314+00	\N	t	3	3	33	4
+21	2020-09-08 17:08:59.411247+00	2020-09-08 17:08:59.411294+00	\N	t	3	3	32	4
+22	2020-09-08 17:09:23.110019+00	2020-09-08 17:09:23.110066+00	\N	t	3	3	31	8
+23	2020-09-08 17:09:40.602403+00	2020-09-08 17:09:40.602464+00	\N	t	3	3	30	8
+24	2020-09-08 17:10:15.82155+00	2020-09-08 17:10:15.821606+00	\N	t	3	3	29	7
+25	2020-09-08 17:10:45.002418+00	2020-09-08 17:10:45.002488+00	\N	t	3	3	28	6
+26	2020-09-08 17:11:27.253216+00	2020-09-08 17:11:27.253263+00	\N	t	3	3	27	5
+27	2020-09-08 17:12:03.059114+00	2020-09-08 17:12:03.05916+00	\N	t	3	3	26	4
+28	2020-09-08 17:12:34.190239+00	2020-09-08 17:12:34.190289+00	\N	t	3	3	25	3
+29	2020-09-08 17:14:08.877937+00	2020-09-08 17:14:08.877993+00	\N	t	3	3	24	3
+30	2020-09-08 17:14:32.108985+00	2020-09-08 17:14:32.109032+00	\N	t	3	3	23	3
+31	2020-09-08 17:14:49.815574+00	2020-09-08 17:14:49.815627+00	\N	t	3	3	22	3
+32	2020-09-08 17:15:04.291926+00	2020-09-08 17:15:04.291973+00	\N	t	3	3	21	2
+33	2020-09-08 17:15:16.798987+00	2020-09-08 17:15:16.799036+00	\N	t	3	3	20	2
+34	2020-09-08 17:15:35.192194+00	2020-09-08 17:15:35.192245+00	\N	t	3	3	19	2
+35	2020-09-08 17:15:53.278258+00	2020-09-08 17:15:53.278307+00	\N	t	3	3	18	1
+36	2020-09-08 17:16:03.899594+00	2020-09-08 17:16:03.899642+00	\N	t	3	3	17	1
+37	2020-09-08 17:16:28.174823+00	2020-09-08 17:16:28.174881+00	\N	t	3	3	16	8
+38	2020-09-08 17:16:56.404933+00	2020-09-08 17:16:56.404981+00	\N	t	3	3	15	8
+39	2020-09-08 17:17:38.421395+00	2020-09-08 17:17:38.421445+00	\N	t	3	3	14	8
+40	2020-09-08 17:17:59.236903+00	2020-09-08 17:17:59.236968+00	\N	t	3	3	13	7
+41	2020-09-08 17:18:41.184148+00	2020-09-08 17:18:41.184197+00	\N	t	3	3	12	7
+42	2020-09-08 17:19:23.550988+00	2020-09-08 17:19:23.551034+00	\N	t	3	3	11	7
+43	2020-09-08 17:19:44.357365+00	2020-09-08 17:19:44.357415+00	\N	t	3	3	10	6
+44	2020-09-08 17:20:09.122804+00	2020-09-08 17:20:09.122856+00	\N	t	3	3	9	6
+45	2020-09-08 17:20:31.898002+00	2020-09-08 17:20:31.89805+00	\N	t	3	3	8	6
+46	2020-09-08 17:20:50.040377+00	2020-09-08 17:20:50.040426+00	\N	t	3	3	7	5
+47	2020-09-08 17:21:06.493115+00	2020-09-08 17:21:06.493162+00	\N	t	3	3	6	5
+48	2020-09-08 17:21:22.642835+00	2020-09-08 17:21:22.642883+00	\N	t	3	3	5	4
+49	2020-09-08 17:21:38.286265+00	2020-09-08 17:21:38.286343+00	\N	t	3	3	4	4
+50	2020-09-08 17:21:58.607071+00	2020-09-08 17:21:58.607119+00	\N	t	3	3	3	4
+51	2020-09-08 17:22:14.501735+00	2020-09-08 17:22:14.501782+00	\N	t	3	3	2	4
+\.
+
+
+--
+-- Data for Name: paralelo; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.paralelo (id, created, modified, deleted_at, status, creator_id, modifier_id, plan_id, teacher_id, term_id, classroom_id, code, subject_mesh_id, name) FROM stdin;
+8	2020-09-07 12:36:23.379718+00	2020-09-07 12:36:23.379769+00	\N	t	2	2	9	21	2	11	S8	\N	1
+7	2020-09-07 12:35:58.182941+00	2020-09-08 19:35:30.817408+00	\N	t	2	3	9	23	2	4	S7	\N	2
+6	2020-09-07 12:35:24.005904+00	2020-09-08 19:35:44.462735+00	\N	t	2	3	9	23	2	9	S6	\N	3
+5	2020-09-07 12:34:35.684958+00	2020-09-08 19:35:56.21436+00	\N	t	2	3	9	21	2	5	S5	\N	4
+4	2020-09-07 09:26:29.098627+00	2020-09-08 19:36:09.006582+00	\N	t	2	3	8	19	3	2	S4	\N	5
+3	2020-09-07 09:25:56.015425+00	2020-09-08 19:36:18.275421+00	\N	t	2	3	6	18	3	10	S3	\N	6
+2	2020-09-07 09:25:09.784081+00	2020-09-08 19:36:26.38279+00	\N	t	2	3	8	21	2	11	S2	\N	7
+1	2020-09-07 09:14:16.809901+00	2020-09-08 19:36:35.563537+00	\N	t	2	3	7	24	2	9	S1	\N	8
+\.
+
+
+--
+-- Data for Name: periodo; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.periodo (id, created, modified, deleted_at, status, name, year, creator_id, modifier_id) FROM stdin;
+1	2020-09-02 15:41:34.674658+00	2020-09-02 15:41:34.674724+00	\N	t	Ordinario 1	2020	2	2
+2	2020-09-02 15:41:42.5092+00	2020-09-02 15:41:42.509269+00	\N	t	Ordinario 2	2020	2	2
+3	2020-09-02 15:41:53.241955+00	2020-09-02 15:41:53.242004+00	\N	t	Extraordinario	2020	2	2
+\.
+
+
+--
+-- Data for Name: planificacion; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.planificacion (id, created, modified, deleted_at, status, career_id, creator_id, modifier_id, term_id, state, date_emi, version) FROM stdin;
+6	2020-09-07 01:45:04.847061+00	2020-09-07 01:45:36.461838+00	2020-09-07 01:45:36.461643+00	f	1	\N	2	2	f	\N	
+8	2020-09-07 02:55:17.337945+00	2020-09-07 02:55:39.470077+00	2020-09-07 02:55:39.469874+00	f	1	2	2	2	f	\N	
+7	2020-09-07 02:53:27.942265+00	2020-09-07 08:55:42.594466+00	\N	f	2	2	1	2	f	\N	
+5	2020-09-07 01:14:46.082405+00	2020-09-07 08:55:42.607895+00	\N	f	2	\N	1	2	f	\N	
+15	2020-09-07 15:57:39.127826+00	2020-09-07 15:58:23.709701+00	\N	t	1	\N	3	1	t	\N	
+11	2020-09-07 14:45:48.029868+00	2020-09-07 21:59:12.466953+00	2020-09-07 21:59:12.466687+00	f	1	\N	3	2	f	\N	
+16	2020-09-07 21:58:58.266556+00	2020-09-07 22:02:50.033033+00	2020-09-07 22:02:50.032777+00	f	1	3	3	1	f	\N	
+14	2020-09-07 15:56:45.1922+00	2020-09-07 22:03:00.983514+00	2020-09-07 22:03:00.983121+00	f	1	\N	3	2	f	\N	
+13	2020-09-07 14:39:40.430344+00	2020-09-08 03:06:45.788059+00	2020-09-08 03:06:45.787771+00	f	1	3	3	1	t	\N	
+9	2020-09-07 09:32:55.718872+00	2020-09-08 17:36:44.115915+00	2020-09-08 17:36:44.115649+00	f	2	\N	3	2	t	\N	
+10	2020-09-07 22:04:33.618661+00	2020-09-08 17:36:52.738971+00	2020-09-08 17:36:52.738703+00	f	2	\N	3	3	f	\N	
+12	2020-09-07 14:44:39.441728+00	2020-09-08 17:37:05.905462+00	2020-09-08 17:37:05.905241+00	f	1	\N	3	1	f	\N	
+17	2020-09-08 19:24:55.124227+00	2020-09-08 19:24:55.210924+00	\N	t	1	\N	3	3	f	\N	
+18	2020-09-08 19:29:29.072013+00	2020-09-08 19:29:29.072087+00	\N	t	2	3	3	2	f	\N	
+\.
+
+
+--
+-- Data for Name: planificacion_item; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.planificacion_item (id, created, modified, deleted_at, status, availability_id, classroom_id, creator_id, modifier_id, plan_id, subject_id, teacher_id, parallel_id, end_day, end_time, start_day, start_time) FROM stdin;
+5	2020-09-07 02:53:28.022486+00	2020-09-07 02:53:28.022537+00	\N	t	8	1	2	2	7	1	17	\N		\N		\N
+6	2020-09-07 02:55:17.410659+00	2020-09-07 02:55:17.410738+00	\N	t	9	3	2	2	8	4	19	\N		\N		\N
+7	2020-09-07 08:55:11.064689+00	2020-09-07 09:15:29.044283+00	\N	t	12	1	2	2	9	1	18	1		\N		\N
+8	2020-09-07 08:55:53.452154+00	2020-09-07 09:27:04.649602+00	\N	t	8	2	2	2	9	2	18	3		\N		\N
+9	2020-09-07 08:55:53.454037+00	2020-09-07 09:27:04.651678+00	\N	t	10	11	2	2	9	4	19	4		\N		\N
+10	2020-09-07 09:27:30.928591+00	2020-09-07 09:27:30.928631+00	\N	t	10	2	2	2	9	1	19	4		\N		\N
+11	2020-09-07 13:50:33.04161+00	2020-09-07 13:50:33.041682+00	\N	t	8	1	2	2	10	1	17	1		\N		\N
+12	2020-09-07 14:19:14.096681+00	2020-09-07 14:19:14.09672+00	\N	t	8	7	2	2	11	6	24	1		\N		\N
+13	2020-09-07 14:19:14.096905+00	2020-09-07 14:19:14.096922+00	\N	t	9	3	2	2	11	2	19	3		\N		\N
+14	2020-09-07 14:19:14.097095+00	2020-09-07 14:19:14.097113+00	\N	t	8	4	2	2	11	23	26	8		\N		\N
+15	2020-09-07 14:34:34.920045+00	2020-09-07 14:34:34.920093+00	\N	t	12	1	3	3	12	1	20	1		\N		\N
+16	2020-09-07 14:39:41.015183+00	2020-09-07 14:39:41.015244+00	\N	t	9	1	3	3	13	1	17	1		\N		\N
+17	2020-09-07 14:39:41.015502+00	2020-09-07 14:39:41.015522+00	\N	t	17	11	3	3	13	2	21	2		\N		\N
+18	2020-09-07 14:39:41.015641+00	2020-09-07 14:39:41.015666+00	\N	t	16	10	3	3	13	3	20	2		\N		\N
+19	2020-09-07 14:39:41.015839+00	2020-09-07 14:39:41.015864+00	\N	t	13	9	3	3	13	4	21	4		\N		\N
+20	2020-09-07 14:39:41.016049+00	2020-09-07 14:39:41.016078+00	\N	t	14	8	3	3	13	5	21	4		\N		\N
+21	2020-09-07 14:39:41.016265+00	2020-09-07 14:39:41.016291+00	\N	t	17	11	3	3	13	11	20	7		\N		\N
+22	2020-09-07 14:39:41.016487+00	2020-09-07 14:39:41.016515+00	\N	t	17	11	3	3	13	12	26	7		\N		\N
+24	2020-09-07 15:51:39.333344+00	2020-09-07 15:51:39.333359+00	\N	t	12	1	3	3	14	1	20	2		\N		\N
+23	2020-09-07 15:51:39.333087+00	2020-09-07 15:52:34.529879+00	\N	t	9	10	3	3	14	3	20	1		\N		\N
+25	2020-09-07 15:52:53.157803+00	2020-09-07 15:52:53.157843+00	\N	t	12	12	3	3	14	10	20	3		\N		\N
+26	2020-09-07 15:52:53.2136+00	2020-09-07 15:52:53.213629+00	\N	t	12	12	3	3	14	10	20	3		\N		\N
+27	2020-09-07 15:56:23.927161+00	2020-09-07 15:56:23.927188+00	\N	t	17	7	3	3	14	6	18	4		\N		\N
+28	2020-09-07 15:56:45.328347+00	2020-09-07 15:56:45.328375+00	\N	t	8	12	3	3	14	19	27	5		\N		\N
+29	2020-09-07 15:56:57.758971+00	2020-09-07 15:56:57.75901+00	\N	t	12	1	3	3	15	1	17	1		\N		\N
+30	2020-09-07 15:56:57.759161+00	2020-09-07 15:56:57.759175+00	\N	t	9	5	3	3	15	2	21	3		\N		\N
+31	2020-09-07 15:56:57.759262+00	2020-09-07 15:56:57.759272+00	\N	t	15	11	3	3	15	3	20	3		\N		\N
+32	2020-09-07 15:56:57.759353+00	2020-09-07 15:56:57.759362+00	\N	t	18	11	3	3	15	9	25	7		\N		\N
+33	2020-09-07 15:56:57.759441+00	2020-09-07 15:56:57.759451+00	\N	t	16	9	3	3	15	8	20	7		\N		\N
+34	2020-09-07 15:57:39.291458+00	2020-09-07 15:57:39.291487+00	\N	t	10	10	3	3	15	6	21	6		\N		\N
+35	2020-09-07 21:58:58.367994+00	2020-09-07 21:58:58.368045+00	\N	t	10	1	3	3	16	1	19	1		\N		\N
+36	2020-09-07 22:04:33.726495+00	2020-09-07 22:04:33.726523+00	\N	t	15	12	3	3	10	36	27	3		\N		\N
+37	2020-09-07 22:04:33.727785+00	2020-09-07 22:04:33.72781+00	\N	t	20	12	3	3	10	34	28	7		\N		\N
+38	2020-09-07 22:04:33.728808+00	2020-09-07 22:04:33.728843+00	\N	t	21	9	3	3	10	35	24	1		\N		\N
+39	2020-09-08 17:28:40.301833+00	2020-09-08 19:24:55.213894+00	\N	t	\N	1	3	3	17	2	23	1	\N	8:40 AM	lunes	7:10 AM
+40	2020-09-08 17:28:40.302078+00	2020-09-08 19:24:55.216051+00	\N	t	\N	8	3	3	17	3	20	2	\N	10:15 AM	martes	8:45 AM
+41	2020-09-08 17:41:04.235994+00	2020-09-08 19:24:55.218058+00	\N	t	\N	9	3	3	17	4	21	4		7:30 AM	lunes	7:00 AM
+42	2020-09-08 17:42:17.25826+00	2020-09-08 19:24:55.220002+00	\N	t	\N	9	3	3	17	4	21	6		8:30 AM	martes	8:00 AM
+43	2020-09-08 19:29:29.429203+00	2020-09-08 19:29:29.429243+00	\N	t	\N	1	3	3	18	35	28	1	\N	8:30 AM	miércoles	7:30 AM
+44	2020-09-08 19:29:29.42941+00	2020-09-08 19:29:29.429424+00	\N	t	\N	11	3	3	18	20	17	3	\N	11:30 AM	martes	10:30 AM
+45	2020-09-08 19:29:29.429519+00	2020-09-08 19:29:29.429529+00	\N	t	\N	10	3	3	18	19	17	7	\N	1:30 PM	lunes	12:00 PM
+46	2020-09-08 19:29:29.429617+00	2020-09-08 19:29:29.429627+00	\N	t	\N	10	3	3	18	19	17	2	\N	3:30 PM	lunes	2:30 PM
+\.
+
+
+--
+-- Data for Name: profesor; Type: TABLE DATA; Schema: public; Owner: dbuser
+--
+
+COPY public.profesor (id, created, modified, deleted_at, status, full_name, alias, career_id, contract_id, creator_id, modifier_id, skill, affinity) FROM stdin;
+28	2020-09-02 15:47:44.625457+00	2020-09-07 21:23:50.597241+00	\N	t	Ricardo Rendón	RR	2	1	2	3	10	1
+27	2020-09-02 15:47:24.261283+00	2020-09-07 21:24:04.429429+00	\N	t	Rubén Pacheco	RP	2	1	2	3	10	1
+26	2020-09-02 15:47:03.295937+00	2020-09-07 21:24:16.530689+00	\N	t	Christian Merchán	CMH	1	1	2	3	10	1
+25	2020-09-02 15:46:38.985087+00	2020-09-07 21:24:51.41877+00	\N	t	Fausto Alban	FA	1	1	2	3	10	1
+24	2020-09-02 15:46:12.819323+00	2020-09-07 21:25:00.039413+00	\N	t	Luis Benavides	LB	2	2	2	3	10	1
+23	2020-09-02 15:45:51.71355+00	2020-09-07 21:25:08.528269+00	\N	t	Vilma Alvarez	VA	1	1	2	3	10	1
+20	2020-09-02 15:44:30.627363+00	2020-09-07 21:25:37.430228+00	\N	t	Lohana Lema	LL	1	2	2	3	10	1
+22	2020-09-02 15:45:27.567429+00	2020-09-07 21:28:17.086088+00	\N	t	Marcos Tobar	MT	2	1	2	3	10	1
+21	2020-09-02 15:44:56.630968+00	2020-09-07 21:29:01.852954+00	\N	t	Marco Sotomayor	MS	1	2	2	3	10	1
+19	2020-09-02 15:44:05.848909+00	2020-09-07 21:29:54.244811+00	\N	t	Roberto Cascante	RC	1	1	2	3	10	1
+18	2020-09-02 15:42:57.175339+00	2020-09-07 21:30:27.902402+00	\N	t	Washington Caraguay	WC	1	2	2	3	10	1
+17	2020-09-02 15:42:26.115637+00	2020-09-07 21:31:00.358955+00	\N	t	Carlos Martín	CM	1	1	2	3	10	1
+29	2020-09-02 16:56:16.472032+00	2020-09-07 21:31:10.037574+00	2020-09-05 21:03:02.656854+00	t	Julian Perez	JP	2	1	2	3	10	1
+\.
+
+
+--
+-- Name: archivos_version_detalle_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.archivos_version_detalle_id_seq', 1, false);
+
+
+--
+-- Name: archivos_version_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.archivos_version_id_seq', 1, false);
+
+
+--
+-- Name: aula_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.aula_id_seq', 12, true);
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 88, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 3, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: base_paralelo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.base_paralelo_id_seq', 1, false);
+
+
+--
+-- Name: carrera_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.carrera_id_seq', 2, true);
+
+
+--
+-- Name: contrato_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.contrato_id_seq', 2, true);
+
+
+--
+-- Name: disponibilidad_horaria_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.disponibilidad_horaria_id_seq', 34, true);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 224, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 22, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 41, true);
+
+
+--
+-- Name: horario_ibm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.horario_ibm_id_seq', 1, false);
+
+
+--
+-- Name: malla_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.malla_id_seq', 2, true);
+
+
+--
+-- Name: materia_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.materia_id_seq', 51, true);
+
+
+--
+-- Name: materia_malla_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.materia_malla_id_seq', 51, true);
+
+
+--
+-- Name: paralelo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.paralelo_id_seq', 8, true);
+
+
+--
+-- Name: periodo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.periodo_id_seq', 3, true);
+
+
+--
+-- Name: planificacion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.planificacion_id_seq', 18, true);
+
+
+--
+-- Name: planificacion_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.planificacion_item_id_seq', 46, true);
+
+
+--
+-- Name: profesor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dbuser
+--
+
+SELECT pg_catalog.setval('public.profesor_id_seq', 29, true);
+
+
+--
+-- Name: archivos_version_detalle archivos_version_detalle_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version_detalle
+    ADD CONSTRAINT archivos_version_detalle_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: archivos_version archivos_version_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version
+    ADD CONSTRAINT archivos_version_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: aula aula_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.aula
+    ADD CONSTRAINT aula_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: base_paralelo base_paralelo_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.base_paralelo
+    ADD CONSTRAINT base_paralelo_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: carrera carrera_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.carrera
+    ADD CONSTRAINT carrera_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contrato contrato_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.contrato
+    ADD CONSTRAINT contrato_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: disponibilidad_horaria disponibilidad_horaria_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.disponibilidad_horaria
+    ADD CONSTRAINT disponibilidad_horaria_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: horario_ibm horario_ibm_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.horario_ibm
+    ADD CONSTRAINT horario_ibm_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: malla malla_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.malla
+    ADD CONSTRAINT malla_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: materia_malla materia_malla_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.materia_malla
+    ADD CONSTRAINT materia_malla_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: materia materia_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.materia
+    ADD CONSTRAINT materia_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: paralelo paralelo_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.paralelo
+    ADD CONSTRAINT paralelo_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: periodo periodo_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.periodo
+    ADD CONSTRAINT periodo_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: planificacion_item planificacion_item_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item
+    ADD CONSTRAINT planificacion_item_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: planificacion planificacion_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion
+    ADD CONSTRAINT planificacion_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: profesor profesor_pkey; Type: CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.profesor
+    ADD CONSTRAINT profesor_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: archivos_version_creator_id_6e68ff09; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX archivos_version_creator_id_6e68ff09 ON public.archivos_version USING btree (creator_id);
+
+
+--
+-- Name: archivos_version_detalle_creator_id_d38eb108; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX archivos_version_detalle_creator_id_d38eb108 ON public.archivos_version_detalle USING btree (creator_id);
+
+
+--
+-- Name: archivos_version_detalle_file_version_id_dbeb22cf; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX archivos_version_detalle_file_version_id_dbeb22cf ON public.archivos_version_detalle USING btree (file_version_id);
+
+
+--
+-- Name: archivos_version_detalle_modifier_id_46dc6636; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX archivos_version_detalle_modifier_id_46dc6636 ON public.archivos_version_detalle USING btree (modifier_id);
+
+
+--
+-- Name: archivos_version_modifier_id_ab6c3fbe; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX archivos_version_modifier_id_ab6c3fbe ON public.archivos_version USING btree (modifier_id);
+
+
+--
+-- Name: archivos_version_plan_id_c0a5ddc5; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX archivos_version_plan_id_c0a5ddc5 ON public.archivos_version USING btree (plan_id);
+
+
+--
+-- Name: aula_creator_id_89404009; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX aula_creator_id_89404009 ON public.aula USING btree (creator_id);
+
+
+--
+-- Name: aula_modifier_id_9737d799; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX aula_modifier_id_9737d799 ON public.aula USING btree (modifier_id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: base_paralelo_creator_id_e18235ad; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX base_paralelo_creator_id_e18235ad ON public.base_paralelo USING btree (creator_id);
+
+
+--
+-- Name: base_paralelo_modifier_id_98de0c84; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX base_paralelo_modifier_id_98de0c84 ON public.base_paralelo USING btree (modifier_id);
+
+
+--
+-- Name: carrera_creator_id_f28753a6; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX carrera_creator_id_f28753a6 ON public.carrera USING btree (creator_id);
+
+
+--
+-- Name: carrera_modifier_id_0f37f70f; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX carrera_modifier_id_0f37f70f ON public.carrera USING btree (modifier_id);
+
+
+--
+-- Name: contrato_creator_id_76f87125; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX contrato_creator_id_76f87125 ON public.contrato USING btree (creator_id);
+
+
+--
+-- Name: contrato_modifier_id_722330d0; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX contrato_modifier_id_722330d0 ON public.contrato USING btree (modifier_id);
+
+
+--
+-- Name: disponibilidad_horaria_creator_id_9c332b0d; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX disponibilidad_horaria_creator_id_9c332b0d ON public.disponibilidad_horaria USING btree (creator_id);
+
+
+--
+-- Name: disponibilidad_horaria_modifier_id_34a40d05; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX disponibilidad_horaria_modifier_id_34a40d05 ON public.disponibilidad_horaria USING btree (modifier_id);
+
+
+--
+-- Name: disponibilidad_horaria_teachers_id_c78e1123; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX disponibilidad_horaria_teachers_id_c78e1123 ON public.disponibilidad_horaria USING btree (teachers_id);
+
+
+--
+-- Name: disponibilidad_horaria_term_id_2d2dd65d; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX disponibilidad_horaria_term_id_2d2dd65d ON public.disponibilidad_horaria USING btree (term_id);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: horario_ibm_creator_id_1c3e6ecc; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX horario_ibm_creator_id_1c3e6ecc ON public.horario_ibm USING btree (creator_id);
+
+
+--
+-- Name: horario_ibm_file_version_id_b6fcc48a; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX horario_ibm_file_version_id_b6fcc48a ON public.horario_ibm USING btree (file_version_id);
+
+
+--
+-- Name: horario_ibm_modifier_id_9cebc472; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX horario_ibm_modifier_id_9cebc472 ON public.horario_ibm USING btree (modifier_id);
+
+
+--
+-- Name: malla_career_id_15760249; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX malla_career_id_15760249 ON public.malla USING btree (career_id);
+
+
+--
+-- Name: malla_creator_id_f3134c6b; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX malla_creator_id_f3134c6b ON public.malla USING btree (creator_id);
+
+
+--
+-- Name: malla_modifier_id_1ed7ce1c; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX malla_modifier_id_1ed7ce1c ON public.malla USING btree (modifier_id);
+
+
+--
+-- Name: malla_subject_mesh_id_51013179; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX malla_subject_mesh_id_51013179 ON public.malla USING btree (subject_mesh_id);
+
+
+--
+-- Name: materia_creator_id_551ac241; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX materia_creator_id_551ac241 ON public.materia USING btree (creator_id);
+
+
+--
+-- Name: materia_malla_creator_id_773b0fd6; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX materia_malla_creator_id_773b0fd6 ON public.materia_malla USING btree (creator_id);
+
+
+--
+-- Name: materia_malla_modifier_id_99ed7b64; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX materia_malla_modifier_id_99ed7b64 ON public.materia_malla USING btree (modifier_id);
+
+
+--
+-- Name: materia_malla_subject_id_4c98f6c5; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX materia_malla_subject_id_4c98f6c5 ON public.materia_malla USING btree (subject_id);
+
+
+--
+-- Name: materia_modifier_id_5a6d6d88; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX materia_modifier_id_5a6d6d88 ON public.materia USING btree (modifier_id);
+
+
+--
+-- Name: paralelo_classroom_id_3c361abf; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX paralelo_classroom_id_3c361abf ON public.paralelo USING btree (classroom_id);
+
+
+--
+-- Name: paralelo_creator_id_5b6e8c42; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX paralelo_creator_id_5b6e8c42 ON public.paralelo USING btree (creator_id);
+
+
+--
+-- Name: paralelo_modifier_id_54b6ea89; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX paralelo_modifier_id_54b6ea89 ON public.paralelo USING btree (modifier_id);
+
+
+--
+-- Name: paralelo_plan_id_f5f8c908; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX paralelo_plan_id_f5f8c908 ON public.paralelo USING btree (plan_id);
+
+
+--
+-- Name: paralelo_subject_mesh_id_30e5c77c; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX paralelo_subject_mesh_id_30e5c77c ON public.paralelo USING btree (subject_mesh_id);
+
+
+--
+-- Name: paralelo_teacher_id_09aea3e9; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX paralelo_teacher_id_09aea3e9 ON public.paralelo USING btree (teacher_id);
+
+
+--
+-- Name: paralelo_term_id_e9b78e27; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX paralelo_term_id_e9b78e27 ON public.paralelo USING btree (term_id);
+
+
+--
+-- Name: periodo_creator_id_86933ab1; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX periodo_creator_id_86933ab1 ON public.periodo USING btree (creator_id);
+
+
+--
+-- Name: periodo_modifier_id_0c2a19a1; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX periodo_modifier_id_0c2a19a1 ON public.periodo USING btree (modifier_id);
+
+
+--
+-- Name: planificacion_career_id_29e2d635; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_career_id_29e2d635 ON public.planificacion USING btree (career_id);
+
+
+--
+-- Name: planificacion_creator_id_96140ce7; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_creator_id_96140ce7 ON public.planificacion USING btree (creator_id);
+
+
+--
+-- Name: planificacion_item_availability_id_6ac6ab0d; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_item_availability_id_6ac6ab0d ON public.planificacion_item USING btree (availability_id);
+
+
+--
+-- Name: planificacion_item_classroom_id_73e5a510; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_item_classroom_id_73e5a510 ON public.planificacion_item USING btree (classroom_id);
+
+
+--
+-- Name: planificacion_item_creator_id_99b6969f; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_item_creator_id_99b6969f ON public.planificacion_item USING btree (creator_id);
+
+
+--
+-- Name: planificacion_item_modifier_id_e8a73eba; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_item_modifier_id_e8a73eba ON public.planificacion_item USING btree (modifier_id);
+
+
+--
+-- Name: planificacion_item_parallel_id_a9f97143; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_item_parallel_id_a9f97143 ON public.planificacion_item USING btree (parallel_id);
+
+
+--
+-- Name: planificacion_item_plan_id_e9fc446a; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_item_plan_id_e9fc446a ON public.planificacion_item USING btree (plan_id);
+
+
+--
+-- Name: planificacion_item_subject_id_a51f1276; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_item_subject_id_a51f1276 ON public.planificacion_item USING btree (subject_id);
+
+
+--
+-- Name: planificacion_item_teacher_id_53c6a870; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_item_teacher_id_53c6a870 ON public.planificacion_item USING btree (teacher_id);
+
+
+--
+-- Name: planificacion_modifier_id_6ea82912; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_modifier_id_6ea82912 ON public.planificacion USING btree (modifier_id);
+
+
+--
+-- Name: planificacion_term_id_97f932ec; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX planificacion_term_id_97f932ec ON public.planificacion USING btree (term_id);
+
+
+--
+-- Name: profesor_career_id_71f7a691; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX profesor_career_id_71f7a691 ON public.profesor USING btree (career_id);
+
+
+--
+-- Name: profesor_contract_id_68cd63bb; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX profesor_contract_id_68cd63bb ON public.profesor USING btree (contract_id);
+
+
+--
+-- Name: profesor_creator_id_ade4aa34; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX profesor_creator_id_ade4aa34 ON public.profesor USING btree (creator_id);
+
+
+--
+-- Name: profesor_modifier_id_a426d3c9; Type: INDEX; Schema: public; Owner: dbuser
+--
+
+CREATE INDEX profesor_modifier_id_a426d3c9 ON public.profesor USING btree (modifier_id);
+
+
+--
+-- Name: archivos_version archivos_version_creator_id_6e68ff09_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version
+    ADD CONSTRAINT archivos_version_creator_id_6e68ff09_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: archivos_version_detalle archivos_version_det_file_version_id_dbeb22cf_fk_archivos_; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version_detalle
+    ADD CONSTRAINT archivos_version_det_file_version_id_dbeb22cf_fk_archivos_ FOREIGN KEY (file_version_id) REFERENCES public.archivos_version(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: archivos_version_detalle archivos_version_detalle_creator_id_d38eb108_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version_detalle
+    ADD CONSTRAINT archivos_version_detalle_creator_id_d38eb108_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: archivos_version_detalle archivos_version_detalle_modifier_id_46dc6636_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version_detalle
+    ADD CONSTRAINT archivos_version_detalle_modifier_id_46dc6636_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: archivos_version archivos_version_modifier_id_ab6c3fbe_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version
+    ADD CONSTRAINT archivos_version_modifier_id_ab6c3fbe_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: archivos_version archivos_version_plan_id_c0a5ddc5_fk_planificacion_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.archivos_version
+    ADD CONSTRAINT archivos_version_plan_id_c0a5ddc5_fk_planificacion_id FOREIGN KEY (plan_id) REFERENCES public.planificacion(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: aula aula_creator_id_89404009_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.aula
+    ADD CONSTRAINT aula_creator_id_89404009_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: aula aula_modifier_id_9737d799_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.aula
+    ADD CONSTRAINT aula_modifier_id_9737d799_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: base_paralelo base_paralelo_creator_id_e18235ad_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.base_paralelo
+    ADD CONSTRAINT base_paralelo_creator_id_e18235ad_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: base_paralelo base_paralelo_modifier_id_98de0c84_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.base_paralelo
+    ADD CONSTRAINT base_paralelo_modifier_id_98de0c84_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: carrera carrera_creator_id_f28753a6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.carrera
+    ADD CONSTRAINT carrera_creator_id_f28753a6_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: carrera carrera_modifier_id_0f37f70f_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.carrera
+    ADD CONSTRAINT carrera_modifier_id_0f37f70f_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: contrato contrato_creator_id_76f87125_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.contrato
+    ADD CONSTRAINT contrato_creator_id_76f87125_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: contrato contrato_modifier_id_722330d0_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.contrato
+    ADD CONSTRAINT contrato_modifier_id_722330d0_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: disponibilidad_horaria disponibilidad_horaria_creator_id_9c332b0d_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.disponibilidad_horaria
+    ADD CONSTRAINT disponibilidad_horaria_creator_id_9c332b0d_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: disponibilidad_horaria disponibilidad_horaria_modifier_id_34a40d05_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.disponibilidad_horaria
+    ADD CONSTRAINT disponibilidad_horaria_modifier_id_34a40d05_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: disponibilidad_horaria disponibilidad_horaria_teachers_id_c78e1123_fk_profesor_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.disponibilidad_horaria
+    ADD CONSTRAINT disponibilidad_horaria_teachers_id_c78e1123_fk_profesor_id FOREIGN KEY (teachers_id) REFERENCES public.profesor(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: disponibilidad_horaria disponibilidad_horaria_term_id_2d2dd65d_fk_periodo_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.disponibilidad_horaria
+    ADD CONSTRAINT disponibilidad_horaria_term_id_2d2dd65d_fk_periodo_id FOREIGN KEY (term_id) REFERENCES public.periodo(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: horario_ibm horario_ibm_creator_id_1c3e6ecc_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.horario_ibm
+    ADD CONSTRAINT horario_ibm_creator_id_1c3e6ecc_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: horario_ibm horario_ibm_file_version_id_b6fcc48a_fk_archivos_version_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.horario_ibm
+    ADD CONSTRAINT horario_ibm_file_version_id_b6fcc48a_fk_archivos_version_id FOREIGN KEY (file_version_id) REFERENCES public.archivos_version(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: horario_ibm horario_ibm_modifier_id_9cebc472_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.horario_ibm
+    ADD CONSTRAINT horario_ibm_modifier_id_9cebc472_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: malla malla_career_id_15760249_fk_carrera_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.malla
+    ADD CONSTRAINT malla_career_id_15760249_fk_carrera_id FOREIGN KEY (career_id) REFERENCES public.carrera(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: malla malla_creator_id_f3134c6b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.malla
+    ADD CONSTRAINT malla_creator_id_f3134c6b_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: malla malla_modifier_id_1ed7ce1c_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.malla
+    ADD CONSTRAINT malla_modifier_id_1ed7ce1c_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: malla malla_subject_mesh_id_51013179_fk_materia_malla_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.malla
+    ADD CONSTRAINT malla_subject_mesh_id_51013179_fk_materia_malla_id FOREIGN KEY (subject_mesh_id) REFERENCES public.materia_malla(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: materia materia_creator_id_551ac241_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.materia
+    ADD CONSTRAINT materia_creator_id_551ac241_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: materia_malla materia_malla_creator_id_773b0fd6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.materia_malla
+    ADD CONSTRAINT materia_malla_creator_id_773b0fd6_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: materia_malla materia_malla_modifier_id_99ed7b64_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.materia_malla
+    ADD CONSTRAINT materia_malla_modifier_id_99ed7b64_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: materia_malla materia_malla_subject_id_4c98f6c5_fk_materia_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.materia_malla
+    ADD CONSTRAINT materia_malla_subject_id_4c98f6c5_fk_materia_id FOREIGN KEY (subject_id) REFERENCES public.materia(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: materia materia_modifier_id_5a6d6d88_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.materia
+    ADD CONSTRAINT materia_modifier_id_5a6d6d88_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: paralelo paralelo_classroom_id_3c361abf_fk_aula_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.paralelo
+    ADD CONSTRAINT paralelo_classroom_id_3c361abf_fk_aula_id FOREIGN KEY (classroom_id) REFERENCES public.aula(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: paralelo paralelo_creator_id_5b6e8c42_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.paralelo
+    ADD CONSTRAINT paralelo_creator_id_5b6e8c42_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: paralelo paralelo_modifier_id_54b6ea89_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.paralelo
+    ADD CONSTRAINT paralelo_modifier_id_54b6ea89_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: paralelo paralelo_plan_id_f5f8c908_fk_planificacion_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.paralelo
+    ADD CONSTRAINT paralelo_plan_id_f5f8c908_fk_planificacion_id FOREIGN KEY (plan_id) REFERENCES public.planificacion(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: paralelo paralelo_subject_mesh_id_30e5c77c_fk_materia_malla_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.paralelo
+    ADD CONSTRAINT paralelo_subject_mesh_id_30e5c77c_fk_materia_malla_id FOREIGN KEY (subject_mesh_id) REFERENCES public.materia_malla(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: paralelo paralelo_teacher_id_09aea3e9_fk_profesor_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.paralelo
+    ADD CONSTRAINT paralelo_teacher_id_09aea3e9_fk_profesor_id FOREIGN KEY (teacher_id) REFERENCES public.profesor(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: paralelo paralelo_term_id_e9b78e27_fk_periodo_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.paralelo
+    ADD CONSTRAINT paralelo_term_id_e9b78e27_fk_periodo_id FOREIGN KEY (term_id) REFERENCES public.periodo(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: periodo periodo_creator_id_86933ab1_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.periodo
+    ADD CONSTRAINT periodo_creator_id_86933ab1_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: periodo periodo_modifier_id_0c2a19a1_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.periodo
+    ADD CONSTRAINT periodo_modifier_id_0c2a19a1_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion planificacion_career_id_29e2d635_fk_carrera_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion
+    ADD CONSTRAINT planificacion_career_id_29e2d635_fk_carrera_id FOREIGN KEY (career_id) REFERENCES public.carrera(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion planificacion_creator_id_96140ce7_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion
+    ADD CONSTRAINT planificacion_creator_id_96140ce7_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion_item planificacion_item_availability_id_6ac6ab0d_fk_disponibi; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item
+    ADD CONSTRAINT planificacion_item_availability_id_6ac6ab0d_fk_disponibi FOREIGN KEY (availability_id) REFERENCES public.disponibilidad_horaria(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion_item planificacion_item_classroom_id_73e5a510_fk_aula_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item
+    ADD CONSTRAINT planificacion_item_classroom_id_73e5a510_fk_aula_id FOREIGN KEY (classroom_id) REFERENCES public.aula(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion_item planificacion_item_creator_id_99b6969f_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item
+    ADD CONSTRAINT planificacion_item_creator_id_99b6969f_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion_item planificacion_item_modifier_id_e8a73eba_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item
+    ADD CONSTRAINT planificacion_item_modifier_id_e8a73eba_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion_item planificacion_item_parallel_id_a9f97143_fk_paralelo_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item
+    ADD CONSTRAINT planificacion_item_parallel_id_a9f97143_fk_paralelo_id FOREIGN KEY (parallel_id) REFERENCES public.paralelo(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion_item planificacion_item_plan_id_e9fc446a_fk_planificacion_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item
+    ADD CONSTRAINT planificacion_item_plan_id_e9fc446a_fk_planificacion_id FOREIGN KEY (plan_id) REFERENCES public.planificacion(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion_item planificacion_item_subject_id_a51f1276_fk_materia_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item
+    ADD CONSTRAINT planificacion_item_subject_id_a51f1276_fk_materia_id FOREIGN KEY (subject_id) REFERENCES public.materia(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion_item planificacion_item_teacher_id_53c6a870_fk_profesor_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion_item
+    ADD CONSTRAINT planificacion_item_teacher_id_53c6a870_fk_profesor_id FOREIGN KEY (teacher_id) REFERENCES public.profesor(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion planificacion_modifier_id_6ea82912_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion
+    ADD CONSTRAINT planificacion_modifier_id_6ea82912_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: planificacion planificacion_term_id_97f932ec_fk_periodo_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.planificacion
+    ADD CONSTRAINT planificacion_term_id_97f932ec_fk_periodo_id FOREIGN KEY (term_id) REFERENCES public.periodo(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: profesor profesor_career_id_71f7a691_fk_carrera_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.profesor
+    ADD CONSTRAINT profesor_career_id_71f7a691_fk_carrera_id FOREIGN KEY (career_id) REFERENCES public.carrera(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: profesor profesor_contract_id_68cd63bb_fk_contrato_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.profesor
+    ADD CONSTRAINT profesor_contract_id_68cd63bb_fk_contrato_id FOREIGN KEY (contract_id) REFERENCES public.contrato(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: profesor profesor_creator_id_ade4aa34_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.profesor
+    ADD CONSTRAINT profesor_creator_id_ade4aa34_fk_auth_user_id FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: profesor profesor_modifier_id_a426d3c9_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: dbuser
+--
+
+ALTER TABLE ONLY public.profesor
+    ADD CONSTRAINT profesor_modifier_id_a426d3c9_fk_auth_user_id FOREIGN KEY (modifier_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
